@@ -11,6 +11,7 @@ if (isset($_POST['buscar'])) {
         $empresa = buscarEmpresaPorRUC($ruc);
     }
 }
+// Comandos
 
 function buscarEmpresaPorRUC($ruc) {
     $token = 'apis-token-7410.rcjsAzQ2MeFkxq92XKMITNsQhkfO4bZC';

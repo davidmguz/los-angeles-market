@@ -66,7 +66,7 @@
             </a>
         </li>        
         <li class="nav-item">
-            <a class="nav-link active" href="reporteBol.php">
+            <a class="nav-link active" href="reporteBoleta.php">
             <i class="fa fa-file-alt"></i> 
             Boletas
             </a>

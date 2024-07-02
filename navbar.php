@@ -66,13 +66,13 @@
             </a>
         </li>        
         <li class="nav-item">
-            <a class="nav-link active" href="reporte_ventas.php">
+            <a class="nav-link active" href="reporteBoleta.php">
             <i class="fa fa-file-alt"></i> 
             Boletas
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="reporte_ventas.php">
+            <a class="nav-link active" href="reporteFactura.php">
             <i class="fa fa-file-alt"></i> 
             Facturas
             </a>

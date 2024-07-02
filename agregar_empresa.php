@@ -5,6 +5,8 @@ session_start();
 
 if(empty($_SESSION['usuario'])) header("location: login.php");
 
+
+
 if (isset($_POST['buscar'])) {
     $ruc = $_POST['ruc'];
     if (!empty($ruc)) {
@@ -48,7 +50,7 @@ function buscarEmpresaPorRUC($ruc) {
         <div class="mb-3">
             <label for="ruc" class="form-label">RUC</label>
             <div class="input-group">
-                <input type="text" name="ruc" class="form-control" id="ruc" placeholder="Ej. 20698753468" value="<?php echo isset($_POST['ruc']) ? htmlspecialchars($_POST['ruc']) : ''; ?>">
+                <input type="number" name="ruc" class="form-control" id="ruc" placeholder="Ej. 20698753468" value="<?php echo isset($_POST['ruc']) ? htmlspecialchars($_POST['ruc']) : ''; ?>" required>
                 <button type="submit" name="buscar" class="btn btn-info">Buscar</button>
             </div>
         </div>

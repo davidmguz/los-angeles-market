@@ -437,9 +437,9 @@ function eliminarCategoria($idCategoria){
     return eliminar($sentencia, $idCategoria);
 }
 
-function editarProducto($codigo, $nombre, $compra, $venta, $existencia, $id){
-    $sentencia = "UPDATE productos SET codigo = ?, nombre = ?, compra = ?, venta = ?, existencia = ? WHERE id = ?";
-    $parametros = [$codigo, $nombre, $compra, $venta, $existencia, $id];
+function editarProducto($codigo, $nombre, $compra, $venta, $existencia, $descripcion, $fecha_vencimiento, $categoria, $proveedor, $id){
+    $sentencia = "UPDATE producto SET codigo = ?, nombreProd = ?, precioCompra = ?, precioVenta = ?, existencia = ?,descricpionProd = ?,fechavencimiento = ?,fk_idcategoria=?, fk_idproveedor=? WHERE idProducto = ?";
+    $parametros = [$codigo, $nombre, $compra, $venta, $existencia, $descripcion, $fecha_vencimiento, $categoria, $proveedor, $id];
     return editar($sentencia, $parametros);
 }
 
@@ -450,7 +450,7 @@ function editarCategoria( $idCategoria, $categoria){
 }
 
 function obtenerProductoPorId($id){
-    $sentencia = "SELECT * FROM productos WHERE id = ?";
+    $sentencia = "SELECT * FROM producto WHERE idProducto = ?";
     return select($sentencia, [$id])[0];
 }
 

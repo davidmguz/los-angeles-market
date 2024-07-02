@@ -44,7 +44,6 @@ $cartas = [
                 <th>Existencia</th>
                 <th>FechaVencimiento</th>
                 <th>Descripcion</th>
-               
                 <th>Editar</th>
                 <th>Eliminar</th>
             </tr>
@@ -62,6 +61,7 @@ $cartas = [
                     <td><?= $producto->existencia; ?></td>
                    <td><?= $producto->fechavencimiento; ?></td> 
                    <td><?= $producto->descricpionProd; ?></td>
+                   
                     
                     <td>
                         <a class="btn btn-info" href="editar_producto.php?id=<?= $producto->idProducto; ?>">

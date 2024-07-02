@@ -12,7 +12,6 @@ $proveedores = obtenerProveedores2();
 <div class="container">
     <h3>Agregar producto</h3>
     <form method="post">
-       
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre o descripción</label>
             <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ej. Papas">

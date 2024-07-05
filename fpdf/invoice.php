@@ -1,16 +1,17 @@
 <?php
-	include 'funciones.php';
+	
 	# Incluyendo librerias necesarias #
 	require "./code128.php";
 //--------------------------------------------	
 	// Datos de conexión a la base de datos
 	$servername = "localhost";
 	$username = "root";
+	$port = 3307;
 	$password = "";
-	$dbname = "bdVentas";
+	$dbname = "ventas_php";
 
 	// Crear conexión
-	$conn = new mysqli($servername, $username, $password, $dbname);
+	$conn = new mysqli($servername, $username, $password, $dbname, $port);
 
 	// Verificar conexión
 	if ($conn->connect_error) {

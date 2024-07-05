@@ -36,5 +36,5 @@ $usuarios = obtenerUsuarios();
 ?>
 
 <div class="text-right mb-2">
-    <a href="./fpdf/invoice.php" target="_black" class="btn btn-success"><i class="fas fa-file-pdf"></i>Generar reportes</a>
+    <a href=".\fpdf\invoice.php" target="_black" class="btn btn-success"><i class="fas fa-file-pdf"></i>Generar reportes</a>
 </div>

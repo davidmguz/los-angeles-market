@@ -15,6 +15,7 @@ if (isset($_POST['buscar'])) {
     $persona = obtenerPersonaPorDNI2($dni);
 }
 ?>
+
 <div class="container">
     <h3>Agregar usuario</h3>
     <form method="post">
@@ -30,7 +31,7 @@ if (isset($_POST['buscar'])) {
     <?php if ($persona): ?>
     <form method="post">
         <div class="mb-3">
-            <label for="usuario" class="form-label">Nombre de usuario</label>
+            <label for="usuario" class="form-label">Nombre de colaborador</label>
             <input type="text" name="usuario" class="form-control" id="usuario" placeholder="Escribe el nombre de usuario. Ej. Paco">
         </div>
         <div class="mb-3">

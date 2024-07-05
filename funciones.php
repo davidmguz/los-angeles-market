@@ -5,6 +5,7 @@ define("HOY", date("Y-m-d"));
 
 function iniciarSesion($usuario, $password){
     $sentencia = "SELECT  idColaborador, Usuario FROM colaboradores WHERE Usuario  =?";
+    $sentencia = "SELECT  idColaborador, Usuario FROM colaboradores WHERE Usuario  =?";
     $resultado = select($sentencia, [$usuario]);
     if($resultado){
         $usuario = $resultado[0];
@@ -19,12 +20,13 @@ function iniciarSesion2($usuario, $password){
     $resultado = select($sentencia, [$usuario]);
     if($resultado){
         $usuario = $resultado[0];
-        $verificaPass = verificarPassword($usuario->id, $password);
+        $verificaPass = verificarPassword($usuario->idColaborador, $password);
         if($verificaPass) return $usuario;
     }
 }
 
 function verificarPassword($idUsuario, $password){
+    $sentencia = "SELECT password FROM colaboradores WHERE idColaborador = ?";
     $sentencia = "SELECT password FROM colaboradores WHERE idColaborador = ?";
     $contrasenia = select($sentencia, [$idUsuario])[0]->password;
     $verifica = password_verify($password, $contrasenia);

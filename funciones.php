@@ -13,6 +13,17 @@ function iniciarSesion($usuario, $password){
     }
 }
 
+#PROBANDO LOGIN
+function iniciarSesion2($usuario, $password){
+    $sentencia = "SELECT id, Usuario FROM colaboradores WHERE Usuario  = ?";
+    $resultado = select($sentencia, [$usuario]);
+    if($resultado){
+        $usuario = $resultado[0];
+        $verificaPass = verificarPassword($usuario->id, $password);
+        if($verificaPass) return $usuario;
+    }
+}
+
 function verificarPassword($idUsuario, $password){
     $sentencia = "SELECT password FROM usuarios WHERE id = ?";
     $contrasenia = select($sentencia, [$idUsuario])[0]->password;

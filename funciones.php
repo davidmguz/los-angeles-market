@@ -5,7 +5,6 @@ define("HOY", date("Y-m-d"));
 
 function iniciarSesion($usuario, $password){
     $sentencia = "SELECT  idColaborador, Usuario FROM colaboradores WHERE Usuario  =?";
-    $sentencia = "SELECT  idColaborador, Usuario FROM colaboradores WHERE Usuario  =?";
     $resultado = select($sentencia, [$usuario]);
     if($resultado){
         $usuario = $resultado[0];

@@ -29,8 +29,8 @@ if(isset($_POST['ingresar'])){
         return;
     }
 
-    $_SESSION['usuario'] = $datosSesion->usuario;
-    $_SESSION['idUsuario'] = $datosSesion->id;
+    $_SESSION['usuario'] = $datosSesion->Usuario;
+    $_SESSION['idUsuario'] = $datosSesion->idColaborador;
     header("location: index.php");
 }
 ?>

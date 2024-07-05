@@ -4,17 +4,17 @@ define("PASSWORD_PREDETERMINADA", "Jeampierre");
 define("HOY", date("Y-m-d"));
 
 function iniciarSesion($usuario, $password){
-    $sentencia = "SELECT id, usuario FROM usuarios WHERE usuario  = ?";
+    $sentencia = "SELECT  idColaborador, Usuario FROM colaboradores WHERE Usuario  =?";
     $resultado = select($sentencia, [$usuario]);
     if($resultado){
         $usuario = $resultado[0];
-        $verificaPass = verificarPassword($usuario->id, $password);
+        $verificaPass = verificarPassword($usuario->idColaborador, $password);
         if($verificaPass) return $usuario;
     }
 }
 
 function verificarPassword($idUsuario, $password){
-    $sentencia = "SELECT password FROM usuarios WHERE id = ?";
+    $sentencia = "SELECT password FROM colaboradores WHERE idColaborador = ?";
     $contrasenia = select($sentencia, [$idUsuario])[0]->password;
     $verifica = password_verify($password, $contrasenia);
     if($verifica) return true;

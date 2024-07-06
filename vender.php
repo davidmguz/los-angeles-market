@@ -17,7 +17,6 @@ $clienteSeleccionado = (isset($_SESSION['clienteVenta'])) ? obtenerClientePorId(
         <div class="col">
             <input type="submit" value="Agregar" name="agregar" class="btn btn-success mt-2">
         </div>
-        
     </form>
     <?php if($_SESSION['lista']) {?>
     <div>
@@ -41,7 +40,7 @@ $clienteSeleccionado = (isset($_SESSION['clienteVenta'])) ? obtenerClientePorId(
                         <td><?php echo $lista->cantidad;?></td>
                         <td>$<?php echo floatval($lista->cantidad * $lista->precioVenta);?></td>
                         <td>
-                            <a href="quitar_producto_venta.php?id=<?php echo $lista->id?>" class="btn btn-danger">
+                            <a href="quitar_producto_venta.php?idProducto=<?php echo $lista->idProducto?>" class="btn btn-danger">
                                 <i class="fa fa-times"></i>
                             </a>
                         </td>
@@ -50,90 +49,32 @@ $clienteSeleccionado = (isset($_SESSION['clienteVenta'])) ? obtenerClientePorId(
             </tbody>
         </table>
 
-
-
-<?php
-
-
-
-
-
-?>
-<div class="container">
-    <h1>
-        <a class="btn btn-success btn-lg" href="agregar_cliente.php">
-            <i class="fa fa-plus"></i>
-            Agregar persona
-        </a>
-        
-    
-        <a class="btn btn-success btn-lg" href="agregar_cliente.php">
-            <i class="fa fa-plus"></i>
-            Agregar Empresa
-        </a>
-        
-    </h1>
-    <table class="table">
-        
-        <tbody>
-            <?php
-            foreach($clientes as $cliente){
-            ?>
-                
-            <?php } ?>
-        </tbody>
-    </table>
-</div>
-         <form class="row" method="post" action="establecer_cliente_venta.php">
+        <form class="row" method="post" action="establecer_cliente_venta.php">
             <div class="col-10">
                 <select class="form-select" aria-label="Default select example" name="idCliente">
                     <option selected value="">Selecciona el cliente</option>
                     <?php foreach($clientes as $cliente) {?>
-                        <option value="<?php echo $cliente->idPersona?>"><?php echo $cliente->Nombres   ?></option>
+                        <option value="<?php echo $cliente->idPersona?>"><?php echo $cliente->Nombres?></option>
                     <?php }?>
                 </select>
             </div>
             <div class="col-auto">
                 <input class="btn btn-info" type="submit" value="Seleccionar cliente">
                 </input>
-            </div> 
-               
+            </div>
+        </form>
 
-
-            <div class="container">
-    <h3>Seleccionar Cliente</h3>
-    <form class="row" method="post" action="establecer_cliente_venta.php">
-        <div class="col-10">
-            <input type="text" class="form-control" id="dni" placeholder="Escribe el DNI del cliente" onkeyup="buscarCliente()">
-             <select class="form-select" id="clientes" name="idCliente">
-                <option selected value="">Selecciona el cliente</option>
-            </select> 
-            
-        </div>
-        
-        <div class="col-auto">
-            <input class="btn btn-info" type="submit" value="Seleccionar cliente">
-        </div>
-    </form>
-</div>
-
-
-
-            
         <?php if($clienteSeleccionado){?>
             <div class="alert alert-primary mt-3" role="alert">
                 <b>Cliente seleccionado: </b>
                 <br>
-                <b>Nombre: </b> <?php echo $clienteSeleccionado->nombre?><br>
-                <b>Teléfono: </b> <?php echo $clienteSeleccionado->telefono?><br>
-                <b>Dirección: </b> <?php echo $clienteSeleccionado->direccion?><br>
+                <b>Nombre: </b> <?php echo $clienteSeleccionado->Nombres?><br>
+                <b>Teléfono: </b> <?php echo $clienteSeleccionado->Telefonocli?><br>
+                <b>Dirección: </b> <?php echo $clienteSeleccionado->direccioncli?><br>
                 <a href="quitar_cliente_venta.php" class="btn btn-warning">Quitar</a>
             </div>
         <?php }?>
 
-
-
-        
 
         <div class="text-center mt-3">
             <h1>Total: $<?php echo $total;?></h1>

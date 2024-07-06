@@ -315,7 +315,7 @@ function obtenerProductosVendidos($idVenta){
 }
 
 function registrarVenta($productos, $idUsuario, $idCliente, $total){
-    $sentencia =  "INSERT INTO venta (fechaVenta, totalVenta, idUsuario, idCliente) VALUES (?,?,?,?)";
+    $sentencia =  "INSERT INTO venta (fechaVenta, totalVenta, fk_id, fk_clienteVenta) VALUES (?,?,?,?)";
     $parametros = [date("Y-m-d H:i:s"), $total, $idUsuario, $idCliente];
 
     $resultadoVenta = insertar($sentencia, $parametros);
@@ -329,21 +329,21 @@ function registrarVenta($productos, $idUsuario, $idCliente, $total){
 function registrarProductosVenta($productos, $idVenta){
     $sentencia = "INSERT INTO productoventas (cantidad, preciototal, fk_idproducto, fk_idventa) VALUES (?,?,?,?)";
     foreach ($productos as $producto ) {
-        $parametros = [$producto->cantidad, $producto->venta, $producto->id, $idVenta];
+        $parametros = [$producto->cantidad, $producto->precioVenta, $producto->idProducto, $idVenta];
         insertar($sentencia, $parametros);
-        descontarProductos($producto->id, $producto->cantidad);
+        descontarProductos($producto->idProducto, $producto->cantidad);
     }
     return true;
 }
 
 function descontarProductos($idProducto, $cantidad){
-    $sentencia =  "UPDATE productos SET existencia  = existencia - ? WHERE id = ?";
+    $sentencia =  "UPDATE producto SET existencia  = existencia - ? WHERE idProducto = ?";
     $parametros = [$cantidad, $idProducto];
     return editar($sentencia, $parametros);
 }
 
 function obtenerUltimoIdVenta(){
-    $sentencia  = "SELECT id FROM ventas ORDER BY id DESC LIMIT 1";
+    $sentencia  = "SELECT idVenta FROM venta ORDER BY idVenta DESC LIMIT 1";
     return select($sentencia)[0]->id;
 }
 
@@ -359,16 +359,16 @@ function agregarProductoALista($producto, $listaProductos){
     if($producto->existencia < 1) return $listaProductos;
     $producto->cantidad = 1;
     
-    $existe = verificarSiEstaEnLista($producto->id, $listaProductos);
+    $existe = verificarSiEstaEnLista($producto->idProducto, $listaProductos);
 
     if(!$existe){
         array_push($listaProductos, $producto);
     } else{
-        $existenciaAlcanzada = verificarExistencia($producto->id, $listaProductos, $producto->existencia);
+        $existenciaAlcanzada = verificarExistencia($producto->idProducto, $listaProductos, $producto->existencia);
         
         if($existenciaAlcanzada)return $listaProductos;
 
-        $listaProductos = agregarCantidad($producto->id, $listaProductos);
+        $listaProductos = agregarCantidad($producto->idProducto, $listaProductos);
         }
         
     return $listaProductos;
@@ -377,7 +377,7 @@ function agregarProductoALista($producto, $listaProductos){
 
 function verificarExistencia($idProducto, $listaProductos, $existencia){
     foreach($listaProductos as $producto){
-        if($producto->id == $idProducto){
+        if($producto->idProducto == $idProducto){
            if($existencia <= $producto->cantidad) return true; 
         }
     }
@@ -386,7 +386,7 @@ function verificarExistencia($idProducto, $listaProductos, $existencia){
 
 function verificarSiEstaEnLista($idProducto, $listaProductos){
     foreach($listaProductos as $producto){
-        if($producto->id == $idProducto){
+        if($producto->idProducto == $idProducto){
             return true;
         }
     }
@@ -395,7 +395,7 @@ function verificarSiEstaEnLista($idProducto, $listaProductos){
 
 function agregarCantidad($idProducto, $listaProductos){
     foreach($listaProductos as $producto){
-        if($producto->id == $idProducto){
+        if($producto->idProducto == $idProducto){
             $producto->cantidad++;
         }
     }

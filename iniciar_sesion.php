@@ -19,6 +19,7 @@ if(isset($_POST['ingresar'])){
     session_start();
 
     $datosSesion = iniciarSesion($usuario, $password);
+    #$datosSesion = iniciarSesion2($usuario, $password);
 
     if(!$datosSesion){
         echo'

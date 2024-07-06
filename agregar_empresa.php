@@ -5,8 +5,6 @@ session_start();
 
 if(empty($_SESSION['usuario'])) header("location: login.php");
 
-
-
 if (isset($_POST['buscar'])) {
     $ruc = $_POST['ruc'];
     if (!empty($ruc)) {
@@ -64,11 +62,11 @@ function buscarEmpresaPorRUC($ruc) {
         </div>
         <div class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
-            <input type="text" name="telefono" class="form-control" id="telefono" placeholder="Ej. 2111568974">
+            <input type="number" name="telefono" class="form-control" id="telefono" placeholder="Ej. 2111568974">
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="text" name="email" class="form-control" id="email" placeholder="Ej. juan@gmail.com">
+            <input type="email" name="email" class="form-control" id="email" placeholder="Ej. juan@gmail.com">
         </div>
         <div class="text-center mt-3">
             <input type="submit" name="registrar" value="Registrar" class="btn btn-primary btn-lg">

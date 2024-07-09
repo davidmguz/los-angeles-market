@@ -19,7 +19,7 @@ $clientes = obtenerClientes();
     <table class="table">
         <thead>
             <tr>
-            <th>ID</th>
+            
                 <th>DNI</th>
                 <th>NOMBRE</th>
                 <th>P.APELLIDO</th>
@@ -36,7 +36,7 @@ $clientes = obtenerClientes();
             foreach($clientes as $cliente){
             ?>
                 <tr>
-                <td><?php echo $cliente->idPersona; ?></td>
+                
                     <td><?php echo $cliente->DNI_Persona; ?></td>
                     <td><?php echo $cliente->Nombres; ?></td>
                     <td><?php echo $cliente->PrimerApellido; ?></td>
@@ -45,13 +45,13 @@ $clientes = obtenerClientes();
                     <td><?php echo $cliente->direccioncli; ?></td>
                     <td><?php echo $cliente->emailcli; ?></td>
                     <td>
-                        <a class="btn btn-info" href="editar_cliente.php?id=<?php echo $cliente->idPersona;?>">
+                        <a class="btn btn-info" href="editar_cliente.php?id=<?php echo $cliente->DNI_Persona;?>">
                             <i class="fa fa-edit"></i>
                             Editar
                         </a>
                     </td>
                     <td>
-                        <a class="btn btn-danger" href="eliminar_cliente.php?id=<?php echo $cliente->idPersona;?>">
+                        <a class="btn btn-danger" href="eliminar_cliente.php?id=<?php echo $cliente->DNI_Persona;?>">
                             <i class="fa fa-trash"></i>
                             Eliminar
                         </a>

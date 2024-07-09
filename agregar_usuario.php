@@ -60,7 +60,7 @@ if (isset($_POST['buscar'])) {
         </div>
 
         <div class="text-center mt-3">
-            <input type="hidden" name="fk_idPersona" value="<?php echo htmlspecialchars($persona->idPersona); ?>">
+            <input type="hidden" name="fk_idPersona" value="<?php echo htmlspecialchars($persona->DNI_Persona); ?>">
             <input type="submit" name="registrar" value="Registrar" class="btn btn-primary btn-lg">
             <a href="usuarios.php" class="btn btn-danger btn-lg">
                 <i class="fa fa-times"></i> Cancelar

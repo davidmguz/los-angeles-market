@@ -39,13 +39,13 @@ $clientes = obtenerEmpresas();
                     <td><?php echo $cliente->DireccionEmpresa; ?></td>
                     <td><?php echo $cliente->EmailEmpresa; ?></td>
                     <td>
-                        <a class="btn btn-info" href="editar_empresa.php?id=<?php echo $cliente->id_Empresa;?>">
+                        <a class="btn btn-info" href="editar_empresa.php?id=<?php echo $cliente->RUC;?>">
                             <i class="fa fa-edit"></i>
                             Editar
                         </a>
                     </td>
                     <td>
-                        <a class="btn btn-danger" href="eliminar_empresa.php?id=<?php echo $cliente->id_Empresa;?>">
+                        <a class="btn btn-danger" href="eliminar_empresa.php?id=<?php echo $cliente->RUC;?>">
                             <i class="fa fa-trash"></i>
                             Eliminar
                         </a>

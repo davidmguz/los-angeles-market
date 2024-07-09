@@ -19,7 +19,6 @@ if (!$cliente) {
 }
 
 if(isset($_POST['editar'])){
-    $idPersona=$_POST['idpersona'];
     $DNI_Persona=$_POST['dni'];
     $Nombres = $_POST['nombres'];
     $PrimerApellido = $_POST['primerapellido'];
@@ -27,8 +26,7 @@ if(isset($_POST['editar'])){
     $Telefonocli = $_POST['telefono'];
     $direccioncli = $_POST['direccion'];
     $emailcli = $_POST['email'];
-    if( empty($idPersona)
-    ||empty($DNI_Persona)
+    if( empty($DNI_Persona)
     || empty($Nombres) 
     || empty($PrimerApellido) 
     || empty($SegundoApellido)
@@ -42,7 +40,7 @@ if(isset($_POST['editar'])){
         return;
     } 
     
-    $resultado = editarCliente($DNI_Persona, $Nombres, $PrimerApellido, $SegundoApellido,$Telefonocli, $direccioncli, $emailcli,$idPersona);
+    $resultado = editarCliente($DNI_Persona, $Nombres, $PrimerApellido, $SegundoApellido,$Telefonocli, $direccioncli, $emailcli);
     if($resultado){
         echo'
         <div class="alert alert-success mt-3" role="alert">
@@ -64,10 +62,7 @@ if(isset($_POST['editar'])){
 <div class="container">
     <h3>Editar cliente</h3>
     <form method="post">
-    <div class="mb-3">
-            <label for="idpersona" class="form-label">Se muestra el ID</label>
-            <input type="text" name="idpersona" class="form-control" value="<?php echo htmlspecialchars($cliente->idPersona); ?>" id="idPersona" placeholder="Este es el dni de la persona"readonly>
-        </div>
+   
         <div class="mb-3">
             <label for="dni" class="form-label">Se muestra el DNI</label>
             <input type="text" name="dni" class="form-control" value="<?php echo htmlspecialchars($cliente->DNI_Persona); ?>" id="dni" placeholder="Este es el dni de la persona"readonly>

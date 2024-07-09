@@ -61,12 +61,12 @@ function registrarUsuario($usuario, $nombre, $telefono, $direccion, $contrasena)
 
 
 function eliminarCliente($idPersona){
-    $sentencia = "DELETE FROM persona WHERE idPersona = ?";
+    $sentencia = "DELETE FROM persona WHERE DNI_Persona = ?";
     return eliminar($sentencia, $idPersona);
 }
 
 function eliminarEmpresa($id_Empresa){
-    $sentencia = "DELETE FROM empresa WHERE id_Empresa = ?";
+    $sentencia = "DELETE FROM empresa WHERE RUC = ?";
     return eliminar($sentencia, $id_Empresa);
 }
 
@@ -75,15 +75,15 @@ function eliminarProveedor($id_Proveedor){
     return eliminar($sentencia, $id_Proveedor);
 }
 
-function editarCliente($DNI_Persona, $Nombres, $PrimerApellido, $SegundoApellido,$Telefonocli, $direccioncli, $emailcli,$idPersona){
-    $sentencia = "UPDATE persona SET DNI_Persona = ?, Nombres = ?, PrimerApellido = ?, SegundoApellido=?, Telefonocli=?,direccioncli=?,emailcli=? WHERE idPersona = ?";
-    $parametros = [$DNI_Persona, $Nombres, $PrimerApellido, $SegundoApellido,$Telefonocli, $direccioncli, $emailcli,$idPersona];
+function editarCliente($DNI_Persona, $Nombres, $PrimerApellido, $SegundoApellido, $Telefonocli, $direccioncli, $emailcli) {
+    $sentencia = "UPDATE persona SET Nombres = ?, PrimerApellido = ?, SegundoApellido = ?, Telefonocli = ?, direccioncli = ?, emailcli = ? WHERE DNI_Persona = ?";
+    $parametros = [$Nombres, $PrimerApellido, $SegundoApellido, $Telefonocli, $direccioncli, $emailcli, $DNI_Persona];
     return editar($sentencia, $parametros);
 }
 
-function editarEmpresa($RUC, $NombreEmpresa, $TelefonoEmpresa, $DireccionEmpresa,$EmailEmpresa,$id_Empresa){
-    $sentencia = "UPDATE empresa SET RUC = ?, NombreEmpresa = ?, TelefonoEmpresa = ?, DireccionEmpresa=?, EmailEmpresa=? WHERE id_Empresa = ?";
-    $parametros = [$RUC, $NombreEmpresa, $TelefonoEmpresa, $DireccionEmpresa,$EmailEmpresa,$id_Empresa];
+function editarEmpresa($RUC, $NombreEmpresa, $TelefonoEmpresa, $DireccionEmpresa, $EmailEmpresa) {
+    $sentencia = "UPDATE empresa SET NombreEmpresa = ?, TelefonoEmpresa = ?, DireccionEmpresa = ?, EmailEmpresa = ? WHERE RUC = ?";
+    $parametros = [$NombreEmpresa, $TelefonoEmpresa, $DireccionEmpresa, $EmailEmpresa, $RUC];
     return editar($sentencia, $parametros);
 }
 
@@ -94,13 +94,13 @@ function editarProveedor($RUC_Prov, $NombreEmpresa,$Condicion,$Estado, $telefono
 }
 
 function obtenerClientePorId($idPersona){
-    $sentencia = "SELECT * FROM persona WHERE idPersona = ?";
+    $sentencia = "SELECT * FROM persona WHERE DNI_Persona = ?";
     $cliente = select($sentencia, [$idPersona]);
     if($cliente) return $cliente[0];
 }
 
 function obtenerEmpresaPorId($id_Empresa){
-    $sentencia = "SELECT * FROM empresa WHERE id_Empresa = ?";
+    $sentencia = "SELECT * FROM empresa WHERE RUC = ?";
     $cliente = select($sentencia, [$id_Empresa]);
     if($cliente) return $cliente[0];
 }
@@ -570,7 +570,7 @@ function obtenerRoles2() {
 
 function registrarColaborador($usuario, $contrasena, $fk_idPersona, $fk_idRoles){
     $password = password_hash($contrasena, PASSWORD_DEFAULT);
-    $sentencia = "INSERT INTO colaboradores (Usuario, password, fk_idPersona, fk_idRoles) VALUES (?,?,?,?)";
+    $sentencia = "INSERT INTO colaboradores (Usuario, password, fk_dni, fk_idRoles) VALUES (?,?,?,?)";
     $parametros = [$usuario, $password, $fk_idPersona, $fk_idRoles];
     return insertar($sentencia, $parametros);
 }

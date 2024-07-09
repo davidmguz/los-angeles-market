@@ -19,15 +19,13 @@ if (!$empresa) {
 }
 
 if(isset($_POST['editar'])){
-    $id_Empresa=$_POST['idempresa'];
     $RUC=$_POST['ruc'];
     $NombreEmpresa = $_POST['nombreempresa'];
     $TelefonoEmpresa = $_POST['telefonoempresa'];
     $DireccionEmpresa = $_POST['direccionempresa'];
     $EmailEmpresa = $_POST['emailempresa'];
    
-    if( empty($id_Empresa)
-    ||empty($RUC)
+    if( empty($RUC)
     || empty($NombreEmpresa) 
     || empty($TelefonoEmpresa) 
     || empty($DireccionEmpresa)
@@ -39,7 +37,7 @@ if(isset($_POST['editar'])){
         return;
     } 
     
-    $resultado = editarEmpresa($RUC, $NombreEmpresa, $TelefonoEmpresa, $DireccionEmpresa,$EmailEmpresa,$id_Empresa);
+    $resultado = editarEmpresa($RUC, $NombreEmpresa, $TelefonoEmpresa, $DireccionEmpresa,$EmailEmpresa);
     if($resultado){
         echo'
         <div class="alert alert-success mt-3" role="alert">
@@ -61,10 +59,6 @@ if(isset($_POST['editar'])){
 <div class="container">
     <h3>Editar empresa</h3>
     <form method="post">
-    <div class="mb-3">
-            <label for="idempresa" class="form-label">Se muestra el ID</label>
-            <input type="text" name="idempresa" class="form-control" value="<?php echo htmlspecialchars($empresa->id_Empresa); ?>" id="idempresa" placeholder="Este es el dni de la persona"readonly>
-        </div>
         <div class="mb-3">
             <label for="ruc" class="form-label">Se muestra el RUC</label>
             <input type="text" name="ruc" class="form-control" value="<?php echo htmlspecialchars($empresa->RUC); ?>" id="ruc" placeholder="Este es el dni de la persona"readonly>

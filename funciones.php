@@ -28,7 +28,7 @@ function cambiarPassword($idUsuario, $password){
 }
 
 function eliminarUsuario($id){
-    $sentencia = "DELETE FROM usuarios WHERE id = ?";
+    $sentencia = "DELETE FROM colaboradores WHERE idColaborador = ?";
     return eliminar($sentencia, $id);
 }
 
@@ -44,7 +44,7 @@ function obtenerUsuarioPorId($id){
 }
 
 function obtenerUsuarios(){
-    $sentencia = "SELECT id, usuario, nombre, telefono, direccion FROM usuarios";
+    $sentencia = "SELECT idColaborador, Usuario, password, fk_idRoles, fk_dni FROM colaboradores";
     return select($sentencia);
 }
 

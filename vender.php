@@ -54,7 +54,7 @@ $clienteSeleccionado = (isset($_SESSION['clienteVenta'])) ? obtenerClientePorId(
                 <select class="form-select" aria-label="Default select example" name="idCliente">
                     <option selected value="">Selecciona el cliente</option>
                     <?php foreach($clientes as $cliente) {?>
-                        <option value="<?php echo $cliente->idPersona?>"><?php echo $cliente->Nombres?></option>
+                        <option value="<?php echo $cliente->DNI_Persona?>"><?php echo $cliente->Nombres?></option>
                     <?php }?>
                 </select>
             </div>

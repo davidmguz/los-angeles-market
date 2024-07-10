@@ -574,3 +574,45 @@ function registrarColaborador($usuario, $contrasena, $fk_idPersona, $fk_idRoles)
     $parametros = [$usuario, $password, $fk_idPersona, $fk_idRoles];
     return insertar($sentencia, $parametros);
 }
+
+function obtenerClientePorDNI($dni){
+    $sentencia = "SELECT DNI_Persona AS idCliente, CONCAT(Nombres, ' ', PrimerApellido, ' ', SegundoApellido) AS nombre, Telefonocli AS telefono, direccioncli AS direccion FROM persona WHERE DNI_Persona = ?";
+    $resultados = select($sentencia, [$dni]);
+    return count($resultados) > 0 ? $resultados[0] : null;
+}
+
+function obtenerClientePorRUC($ruc){
+    $sentencia = "SELECT RUC AS idCliente, NombreEmpresa AS nombre, TelefonoEmpresa AS telefono, DireccionEmpresa AS direccion FROM empresa WHERE RUC = ?";
+    $resultados = select($sentencia, [$ruc]);
+    return count($resultados) > 0 ? $resultados[0] : null;
+}
+
+
+
+function registrarVenta2($productos, $total, $cliente){
+    $idColaborador = $_SESSION['idUsuario'];
+    $fechaVenta = date("Y-m-d H:i:s");
+
+    $sentencia = "INSERT INTO venta (fechaVenta, totalVenta, fk_idColaborador, fk_clienteVenta) VALUES (?, ?, ?, ?)";
+    $parametros = [$fechaVenta, $total, $idColaborador, $cliente];
+    
+    $resultado = insertar($sentencia, $parametros);
+
+    if($resultado){
+        $idVenta = obtenerUltimoId(); // Asumiendo que tienes una función para obtener el último ID insertado
+        foreach($productos as $producto){
+            $sentencia = "INSERT INTO productoventas (fk_idVenta, fk_idProducto, cantidad, preciototal) VALUES (?, ?, ?, ?)";
+            $parametros = [$idVenta, $producto->idProducto, $producto->cantidad, $producto->precioVenta];
+            insertar($sentencia, $parametros);
+        }
+        return true;
+    }
+    return false;
+}
+
+function obtenerUltimoId() {
+    $bd = conectarBaseDatos();
+    $sentencia = "select max(idCliente) from clienteventa";
+    $respuesta = $bd->query($sentencia);
+    return $respuesta->fetchColumn();
+}

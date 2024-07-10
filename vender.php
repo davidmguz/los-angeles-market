@@ -4,10 +4,10 @@ include_once "navbar.php";
 include_once "funciones.php";
 session_start();
 if(empty($_SESSION['usuario'])) header("location: login.php");
-$_SESSION['lista'] = (isset( $_SESSION['lista'])) ?  $_SESSION['lista'] : [];
+$_SESSION['lista'] = (isset($_SESSION['lista'])) ? $_SESSION['lista'] : [];
 $total = calcularTotalLista($_SESSION['lista']);
-$clientes = obtenerClientes();
-$clienteSeleccionado = (isset($_SESSION['clienteVenta'])) ? obtenerClientePorId($_SESSION['clienteVenta']) : null;
+$clienteSeleccionado = (isset($_SESSION['clienteVenta'])) ? $_SESSION['clienteVenta'] : null;
+$mensajeClienteNoEncontrado = isset($_SESSION['mensajeClienteNoEncontrado']) ? $_SESSION['mensajeClienteNoEncontrado'] : '';
 ?>
 <div class="container mt-3"> 
     <form action="agregar_producto_venta.php" method="post" class="row">
@@ -49,18 +49,13 @@ $clienteSeleccionado = (isset($_SESSION['clienteVenta'])) ? obtenerClientePorId(
             </tbody>
         </table>
 
+        <!-- Formulario para buscar cliente por DNI o RUC -->
         <form class="row" method="post" action="establecer_cliente_venta.php">
             <div class="col-10">
-                <select class="form-select" aria-label="Default select example" name="idCliente">
-                    <option selected value="">Selecciona el cliente</option>
-                    <?php foreach($clientes as $cliente) {?>
-                        <option value="<?php echo $cliente->DNI_Persona?>"><?php echo $cliente->Nombres?></option>
-                    <?php }?>
-                </select>
+                <input type="text" class="form-control" id="identificador_cliente" name="identificador_cliente" placeholder="Ingrese el DNI o RUC del cliente">
             </div>
             <div class="col-auto">
-                <input class="btn btn-info" type="submit" value="Seleccionar cliente">
-                </input>
+                <input class="btn btn-info" type="submit" value="Buscar cliente">
             </div>
         </form>
 
@@ -68,17 +63,21 @@ $clienteSeleccionado = (isset($_SESSION['clienteVenta'])) ? obtenerClientePorId(
             <div class="alert alert-primary mt-3" role="alert">
                 <b>Cliente seleccionado: </b>
                 <br>
-                <b>Nombre: </b> <?php echo $clienteSeleccionado->Nombres?><br>
-                <b>Teléfono: </b> <?php echo $clienteSeleccionado->Telefonocli?><br>
-                <b>Dirección: </b> <?php echo $clienteSeleccionado->direccioncli?><br>
+                <b>Nombre: </b> <?php echo $clienteSeleccionado->nombre?><br>
+                <b>Teléfono: </b> <?php echo $clienteSeleccionado->telefono?><br>
+                <b>Dirección: </b> <?php echo $clienteSeleccionado->direccion?><br>
                 <a href="quitar_cliente_venta.php" class="btn btn-warning">Quitar</a>
+                <a href="confirmar_cliente.php" class="btn btn-warning">Confirmar</a>
+            </div>
+        <?php } else if($mensajeClienteNoEncontrado){?>
+            <div class="alert alert-danger mt-3" role="alert">
+                <?php echo $mensajeClienteNoEncontrado;?>
             </div>
         <?php }?>
 
-
         <div class="text-center mt-3">
             <h1>Total: $<?php echo $total;?></h1>
-            <a  class="btn btn-primary btn-lg" href="registrar_venta.php">  
+            <a class="btn btn-primary btn-lg" href="registrar_venta.php">  
                 <i class="fa fa-check"></i> 
                 Terminar venta 
             </a>

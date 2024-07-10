@@ -1,32 +1,28 @@
 <?php
+session_start();
 include_once "funciones.php";
 
+if(empty($_SESSION['usuario'])) header("location: login.php");
 
-session_start();
-$productos = $_SESSION['lista'];
-$idUsuario = $_SESSION['idUsuario'];
-$total = calcularTotalLista($productos);
-$idCliente = $_SESSION['clienteVenta'];
+$listaProductos = $_SESSION['lista'];
+$total = calcularTotalLista($listaProductos);
 
-if(count($productos) === 0) {
-    header("location: vender.php");
-    return;
-};
-$resultado = registrarVenta($productos, $idUsuario, $idCliente, $total);
+$clienteVentaId = isset($_SESSION['clienteVentaId']) ? $_SESSION['clienteVentaId'] : null;
 
-if(!$resultado) {
-    echo "Error al registrar la venta";
-    return;
+if(registrarVenta2($listaProductos, $total, $clienteVentaId)){
+    unset($_SESSION['lista']);
+    unset($_SESSION['clienteVenta']);
+    unset($_SESSION['clienteVentaId']);
+    echo '
+    <div class="alert alert-success mt-3" role="alert">
+        Venta registrada con éxito.
+        <a href="vender.php">Regresar</a>
+    </div>';
+} else {
+    echo '
+    <div class="alert alert-danger mt-3" role="alert">
+        Hubo un problema al registrar la venta.
+        <a href="vender.php">Regresar</a>
+    </div>';
 }
-
-$_SESSION['lista'] = [];
-$_SESSION['clienteVenta'] = "";
-
-echo "
-<script type='text/javascript'>
-    window.location.href='vender.php'
-    alert('Venta realizada con éxito')
-</script>";
-//header("location: vender.php");
-
 ?>

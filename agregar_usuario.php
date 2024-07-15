@@ -21,7 +21,7 @@ if (isset($_POST['buscar'])) {
     <form method="post">
         <div class="mb-3">
             <label for="dni" class="form-label">DNI</label>
-            <input type="text" name="dni" class="form-control" id="dni" placeholder="Escribe el DNI del usuario" value="<?php echo htmlspecialchars($dni); ?>">
+            <input type="number" name="dni" class="form-control" id="dni" placeholder="Escribe el DNI del usuario" value="<?php echo htmlspecialchars($dni); ?>">
         </div>
         <div class="text-center mt-3">
             <input type="submit" name="buscar" value="Buscar" class="btn btn-primary btn-lg">

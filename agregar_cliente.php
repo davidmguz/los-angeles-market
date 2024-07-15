@@ -44,7 +44,7 @@ function buscarClientePorDNI($dni) {
     <div class="mb-3">
             <label for="dni" class="form-label">DNI</label>
             <div class="input-group">
-                <input type="text" name="dni" class="form-control" id="dni" placeholder="Ej. 76895547" value="<?php echo isset($dni) ? $dni : ''; ?>">
+                <input type="number" name="dni" class="form-control" id="dni" placeholder="Ej. 76895547" value="<?php echo isset($dni) ? $dni : ''; ?>">
                 <button type="submit" name="buscar" class="btn btn-info">Buscar</button>
             </div>  
         </div>
@@ -63,7 +63,7 @@ function buscarClientePorDNI($dni) {
         </div>
         <div class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
-            <input type="text" name="telefono" class="form-control" id="telefono" placeholder="Ej. 2111568974">
+            <input type="number" name="telefono" class="form-control" id="telefono" placeholder="Ej. 2111568974">
         </div>
         <div class="mb-3">
             <label for="direccion" class="form-label">Dirección</label>
@@ -71,7 +71,7 @@ function buscarClientePorDNI($dni) {
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="text" name="email" class="form-control" id="email" placeholder="Ej. juan@gmail.com">
+            <input type="email" name="email" class="form-control" id="email" placeholder="Ej. juan@gmail.com">
         </div>
         <div class="text-center mt-3">
             <input type="submit" name="registrar" value="Registrar" class="btn btn-primary btn-lg">

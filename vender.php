@@ -12,7 +12,7 @@ $mensajeClienteNoEncontrado = isset($_SESSION['mensajeClienteNoEncontrado']) ? $
 <div class="container mt-3"> 
     <form action="agregar_producto_venta.php" method="post" class="row">
         <div class="col-10">
-            <input class="form-control form-control-lg" name="codigo" autofocus id="codigo" type="text" placeholder="Código de barras del producto" aria-label="codigoBarras">
+            <input class="form-control form-control-lg" name="codigo" autofocus id="codigo" type="number" placeholder="Código de barras del producto" aria-label="codigoBarras">
         </div>
         <div class="col">
             <input type="submit" value="Agregar" name="agregar" class="btn btn-success mt-2">

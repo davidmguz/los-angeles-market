@@ -49,7 +49,7 @@ function buscarEmpresaPorRUC($ruc) {
         <div class="mb-3">
             <label for="ruc" class="form-label">RUC</label>
             <div class="input-group">
-                <input type="text" name="ruc" class="form-control" id="ruc" placeholder="Ej. 20698753468" value="<?php echo isset($_POST['ruc']) ? htmlspecialchars($_POST['ruc']) : ''; ?>">
+                <input type="number" name="ruc" class="form-control" min="10000000000" max="99999999999" id="ruc" placeholder="Ej. 20698753468" value="<?php echo isset($_POST['ruc']) ? htmlspecialchars($_POST['ruc']) : ''; ?>">
                 <button type="submit" name="buscar" class="btn btn-info">Buscar</button>
             </div>
         </div>
@@ -71,11 +71,11 @@ function buscarEmpresaPorRUC($ruc) {
         </div>
         <div class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
-            <input type="text" name="telefono" class="form-control" id="telefono" placeholder="Ej. 2111568974">
+            <input type="number" name="telefono" class="form-control" id="telefono" placeholder="Ej. 2111568974" min="100000000" max="999999999">
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="text" name="email" class="form-control" id="email" placeholder="Ej. juan@gmail.com">
+            <input type="email" name="email" class="form-control" id="email" placeholder="Ej. juan@gmail.com">
         </div>
         <div class="text-center mt-3">
             <input type="submit" name="registrar" value="Registrar" class="btn btn-primary btn-lg">

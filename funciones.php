@@ -336,16 +336,19 @@ function registrarProductosVenta($productos, $idVenta){
     return true;
 }
 
-function descontarProductos($idProducto, $cantidad){
-    $sentencia =  "UPDATE producto SET existencia  = existencia - ? WHERE idProducto = ?";
+function descontarProductos($idProducto, $cantidad) {
+    $sentencia = "UPDATE producto SET existencia = existencia - ? WHERE idProducto = ?";
     $parametros = [$cantidad, $idProducto];
     return editar($sentencia, $parametros);
 }
 
-function obtenerUltimoIdVenta(){
-    $sentencia  = "SELECT idVenta FROM venta ORDER BY idVenta DESC LIMIT 1";
-    return select($sentencia)[0]->id;
+function obtenerUltimoIdVenta() {
+    $bd = conectarBaseDatos();
+    $sentencia = "SELECT MAX(idVenta) FROM venta";
+    $respuesta = $bd->query($sentencia);
+    return $respuesta->fetchColumn();
 }
+
 
 function calcularTotalLista($lista){
     $total = 0;
@@ -588,31 +591,51 @@ function obtenerClientePorRUC($ruc){
 }
 
 
-
-function registrarVenta2($productos, $total, $cliente){
+function registrarVenta2($productos, $total, $clienteId){
     $idColaborador = $_SESSION['idUsuario'];
     $fechaVenta = date("Y-m-d H:i:s");
 
+    // Verifica que el cliente existe en clienteventa
+    if(!clienteExiste($clienteId)){
+        throw new Exception("Cliente no existe en la base de datos.");
+    }
+
     $sentencia = "INSERT INTO venta (fechaVenta, totalVenta, fk_idColaborador, fk_clienteVenta) VALUES (?, ?, ?, ?)";
-    $parametros = [$fechaVenta, $total, $idColaborador, $cliente];
+    $parametros = [$fechaVenta, $total, $idColaborador, $clienteId];
     
     $resultado = insertar($sentencia, $parametros);
 
     if($resultado){
-        $idVenta = obtenerUltimoId(); // Asumiendo que tienes una función para obtener el último ID insertado
+        $idVenta = obtenerUltimoIdVenta();
         foreach($productos as $producto){
-            $sentencia = "INSERT INTO productoventas (fk_idVenta, fk_idProducto, cantidad, preciototal) VALUES (?, ?, ?, ?)";
-            $parametros = [$idVenta, $producto->idProducto, $producto->cantidad, $producto->precioVenta];
-            insertar($sentencia, $parametros);
+            $sentenciaProducto = "INSERT INTO productoventas (fk_idVenta, fk_idProducto, cantidad, preciototal) VALUES (?, ?, ?, ?)";
+            $parametrosProducto = [$idVenta, $producto->idProducto, $producto->cantidad, $producto->precioVenta * $producto->cantidad];
+            insertar($sentenciaProducto, $parametrosProducto);
+            
+            // Descontar la cantidad de productos vendidos del inventario
+            descontarProductos($producto->idProducto, $producto->cantidad);
         }
         return true;
     }
     return false;
 }
 
+function clienteExiste($idCliente) {
+    $bd = conectarBaseDatos();
+    $sentencia = "SELECT COUNT(*) FROM clienteventa WHERE idCliente = ?";
+    $respuesta = $bd->prepare($sentencia);
+    $respuesta->execute([$idCliente]);
+    return $respuesta->fetchColumn() > 0;
+}
+
+
+
+
 function obtenerUltimoId() {
     $bd = conectarBaseDatos();
-    $sentencia = "select max(idCliente) from clienteventa";
+    $sentencia = "SELECT MAX(idCliente) AS id FROM clienteventa";
     $respuesta = $bd->query($sentencia);
     return $respuesta->fetchColumn();
 }
+
+

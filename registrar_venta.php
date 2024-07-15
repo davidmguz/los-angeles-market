@@ -2,27 +2,30 @@
 session_start();
 include_once "funciones.php";
 
-if(empty($_SESSION['usuario'])) header("location: login.php");
+if (empty($_SESSION['usuario'])) {
+    header("location: login.php");
+    exit();
+}
 
 $listaProductos = $_SESSION['lista'];
 $total = calcularTotalLista($listaProductos);
+$idCliente = isset($_SESSION['clienteVentaId']) ? $_SESSION['clienteVentaId'] : null;
 
-$clienteVentaId = isset($_SESSION['clienteVentaId']) ? $_SESSION['clienteVentaId'] : null;
+if (!$idCliente) {
+    echo "Error: Cliente no encontrado.";
+    exit();
+}
 
-if(registrarVenta2($listaProductos, $total, $clienteVentaId)){
-    unset($_SESSION['lista']);
-    unset($_SESSION['clienteVenta']);
-    unset($_SESSION['clienteVentaId']);
-    echo '
-    <div class="alert alert-success mt-3" role="alert">
-        Venta registrada con éxito.
-        <a href="vender.php">Regresar</a>
-    </div>';
-} else {
-    echo '
-    <div class="alert alert-danger mt-3" role="alert">
-        Hubo un problema al registrar la venta.
-        <a href="vender.php">Regresar</a>
-    </div>';
+try {
+    if (registrarVenta2($listaProductos, $total, $idCliente)) {
+        // Limpia la lista de productos y cliente de la sesión después de registrar la venta
+        unset($_SESSION['lista']);
+        unset($_SESSION['clienteVentaId']);
+        header("location: index.php");
+    } else {
+        echo "Error al registrar la venta. Inténtelo de nuevo.";
+    }
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
 }
 ?>

@@ -521,7 +521,7 @@ function editar($sentencia, $parametros ){
 
 function conectarBaseDatos() {
     $host = "localhost";
-    $port = "3307"; // Cambiado a 3307
+    $port = "3306"; // Cambiado a 3307
     $db   = "ventas_php";
     $user = "root";
     $pass = "";

@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="modalAgregarEmpresa" tabindex="-1" aria-labelledby="modalAgregarEmpresalLabel" aria-hidden="true">
+<!--div class="modal fade" id="modalAgregarEmpresa" tabindex="-1" aria-labelledby="modalAgregarEmpresalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -15,4 +15,23 @@
       </div>
     </div>
   </div>
-</div>
+</div-->
+<head>
+  <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body">
+  <section class="modal">
+    <div class="modal_container">
+        <img src="/fpdf/img/logo.png" class="modal__img">
+        <h2 class="modal_title">Bienvenido al sitio</h2>
+        <p class="modal__paragraph">Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
+          Explicabo doloremque quibusdam expedita sed aspernatur? 
+          Exercitationem itaque, voluptatibus voluptate assumenda blanditiis doloremque, 
+          quaerat aut et, illo earum ad odit! Magni, quia.</p>
+        <a href="#" class="modal__close"></a>  
+    </div>
+  </section>
+
+  <script src="/js/main.js"></script>
+</body>
+

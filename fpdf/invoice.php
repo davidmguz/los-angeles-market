@@ -6,7 +6,7 @@
 	// Datos de conexión a la base de datos
 	$servername = "localhost";
 	$username = "root";
-	$port = 3307;
+	$port = 3306;
 	$password = "";
 	$dbname = "ventas_php";
 

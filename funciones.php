@@ -611,9 +611,6 @@ function registrarVenta2($productos, $total, $clienteId){
             $sentenciaProducto = "INSERT INTO productoventas (fk_idVenta, fk_idProducto, cantidad, preciototal) VALUES (?, ?, ?, ?)";
             $parametrosProducto = [$idVenta, $producto->idProducto, $producto->cantidad, $producto->precioVenta * $producto->cantidad];
             insertar($sentenciaProducto, $parametrosProducto);
-            
-            // Descontar la cantidad de productos vendidos del inventario
-            descontarProductos($producto->idProducto, $producto->cantidad);
         }
         return true;
     }

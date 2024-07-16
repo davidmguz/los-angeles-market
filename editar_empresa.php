@@ -73,12 +73,12 @@ if(isset($_POST['editar'])){
         </div>
         <div class="mb-3">
             <label for="telefonoempresa" class="form-label">Telefono de la empresa</label>
-            <input type="text" name="telefonoempresa" class="form-control" value="<?php echo htmlspecialchars($empresa->TelefonoEmpresa); ?>" id="telefonoempresa" placeholder="Ej. Av Collar 1005 Col Las Cruces">
+            <input type="number" name="telefonoempresa" class="form-control" value="<?php echo htmlspecialchars($empresa->TelefonoEmpresa); ?>" id="telefonoempresa" placeholder="Ej. Av Collar 1005 Col Las Cruces">
         </div>
         
         <div class="mb-3">
             <label for="emailempresa" class="form-label">Email de la empresa</label>
-            <input type="text" name="emailempresa" class="form-control" value="<?php echo htmlspecialchars($empresa->EmailEmpresa); ?>" id="emailempresa" placeholder="Ej. 76894456">
+            <input type="email" name="emailempresa" class="form-control" value="<?php echo htmlspecialchars($empresa->EmailEmpresa); ?>" id="emailempresa" placeholder="Ej. 76894456">
         </div>
         
         <div class="text-center mt-3">

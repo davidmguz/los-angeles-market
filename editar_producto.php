@@ -69,7 +69,7 @@ $proveedores = obtenerProveedores2();
         </div>
         <div class="mb-3">
             <label for="codigo" class="form-label">Código de barras</label>
-            <input type="text" name="codigo" class="form-control" value="<?php echo $producto->codigo;?>"id="codigo" placeholder="Escribe el código de barras del producto">
+            <input type="number" name="codigo" class="form-control" value="<?php echo $producto->codigo;?>"id="codigo" placeholder="Escribe el código de barras del producto">
         </div>
         </div>
         <div class="text-center mt-3">

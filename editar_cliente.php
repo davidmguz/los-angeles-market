@@ -81,7 +81,7 @@ if(isset($_POST['editar'])){
         </div>
         <div class="mb-3">
             <label for="telefono" class="form-label">Telefono</label>
-            <input type="text" name="telefono" class="form-control" value="<?php echo htmlspecialchars($cliente->Telefonocli); ?>" id="telefono" placeholder="Ej. 76894456">
+            <input type="number" name="telefono" class="form-control" value="<?php echo htmlspecialchars($cliente->Telefonocli); ?>" id="telefono" placeholder="Ej. 76894456">
         </div>
         <div class="mb-3">
             <label for="direccion" class="form-label">Direccion</label>

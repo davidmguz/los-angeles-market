@@ -19,7 +19,7 @@ $categoria = obtenerCategoriaPorId($idCategoria);
     <form method="post">
         <div class="mb-3">
             <label for="idCategoria" class="form-label">Código de la categoria</label>
-            <input type="text" name="idCategoria" class="form-control" value="<?php echo $categoria->idCategoria;?>" idCategoria="idCategoria" placeholder="Escribe el código de barras del producto">
+            <input type="number" name="idCategoria" class="form-control" value="<?php echo $categoria->idCategoria;?>" idCategoria="idCategoria" placeholder="Escribe el código de barras del producto">
         </div>
         <div class="mb-3">
             <label for="categoria" class="form-label">Nombre o descripción</label>

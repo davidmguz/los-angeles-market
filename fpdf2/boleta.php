@@ -6,18 +6,27 @@ error_reporting(E_ALL);
 
 require './conexion.php';
 require './fpdf.php';
+require '../helpers/NumeroALetras.php';
 
 define('MONEDA', 'S/.');
+define('MONEDA_LETRA', 'Soles');
+define('MONEDA_DECIMAL', 'Centavos');
 
 $idVenta = isset($_GET['id']) ? $mysql->real_escape_string($_GET['id']) : 57;
+$sqlIdVentaMax="SELECT MAX(idVenta) AS maximo FROM venta";
+$resul = $mysql->query($sqlIdVentaMax);
+$row_id = $resul ->fetch_assoc();
+$idVenta=$row_id['maximo'];
 
-$sqlVenta="SELECT idVenta, fechaVenta, totalVenta FROM venta WHERE idVenta=$idVenta LIMIT 1";
+$sqlVenta="SELECT idVenta, DATE_FORMAT(fechaVenta, '%d/%m/%y') as fecha_venta, DATE_FORMAT(fechaVenta, '%H:%i') as hora, totalVenta FROM venta WHERE idVenta=$idVenta LIMIT 1";
 $resultado = $mysql->query($sqlVenta);
 $row_venta = $resultado->fetch_assoc();
 
-$total=$row_venta['totalVenta'];
+$total=number_format($row_venta['totalVenta'], 2, '.', ',');
 
-$sqlDetalle="SELECT venta.idVenta, venta.fechaVenta, venta.totalVenta, productoventas.cantidad, productoventas.preciototal, 
+$sqlDetalle="SELECT venta.idVenta, DATE_FORMAT(venta.fechaVenta, '%d/%m/%y') as fecha_venta,
+DATE_FORMAT(venta.fechaVenta, '%H:%i') as hora,   
+venta.totalVenta, productoventas.cantidad, productoventas.preciototal, 
 producto.nombreProd, producto.descricpionProd, producto.precioVenta from venta 
 INNER JOIN productoventas on venta.idVenta=productoventas.fk_idventa
 INNER JOIN producto on producto.idProducto=productoventas.fk_idproducto
@@ -54,12 +63,12 @@ $pdf->SetFont('Arial', '', 7);
 
 while($row_producto=$resultadoDetalle->fetch_assoc()){
     $importe=$row_producto['preciototal'];
-    #$totalProducto += $row_producto['cantidad'];
+    $totalProductos += $row_producto['cantidad'];
 
     $pdf->Cell(10, 4, $row_producto['cantidad'], 0, 0, 'L');
     
     $yInicio=$pdf->GetY();
-    $pdf->MultiCell(30, 4, mb_convert_encoding($row_producto['nombreProd'], 'ISO-8859-1', 'UTF-8'), 0, 'L');
+    $pdf->MultiCell(30, 4, mb_convert_encoding($row_producto['nombreProd'] . $row_producto['descricpionProd'], 'ISO-8859-1', 'UTF-8'), 0, 'L');
     $yFin=$pdf->GetY();
 
     $pdf->SetXY(45, $yInicio);
@@ -68,10 +77,29 @@ while($row_producto=$resultadoDetalle->fetch_assoc()){
     $pdf->Cell(15, 4, MONEDA. '' . $row_producto['preciototal'], 0, 1, 'L');
 
     $pdf->SetY($yFin);
+
 }
 
 $pdf->Ln();
 
-#$pdf->Cell(70, 4, mb_convert_encoding("Número de productos vendidos:", 'ISO-8859-1', 'UTF-8') . $totalProducto, 0, 1, 'L');
+$pdf->Cell(70, 4, mb_convert_encoding("Número de productos: ", 'ISO-8859-1', 'UTF-8') . $totalProductos, 0, 1, 'L');
+
+$pdf->SetFont('Arial', 'B', 8);
+
+$pdf->Cell(70, 5, 'Total: ' . MONEDA . ' ' . $total, 0, 1, 'R');
+
+$pdf->Ln(2);
+
+$pdf->SetFont('Arial', 'B', 8);
+$pdf->MultiCell(70, 4, 'Son ' . NumeroALetras::convertir($total, MONEDA_LETRA, MONEDA_DECIMAL), 0, 'L');
+
+$pdf->Ln();
+
+$pdf->Cell(35, 5, 'Fecha: ' . $row_venta['fecha_venta'], 0, 0, 'C');
+$pdf->Cell(35, 5, 'Hora: ' . $row_venta['hora'], 0, 0, 'C');
+
+$pdf->Ln(10);
+
+$pdf->MultiCell(70, 5, 'AGRADECEMOS SU PREFERENCIA, VUELVA PRONTO!!!', 0, 'C');
 
 $pdf->Output();

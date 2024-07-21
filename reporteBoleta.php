@@ -36,5 +36,5 @@ $usuarios = obtenerUsuarios();
 ?>
 
 <div class="text-right mb-2">
-    <a href="./fpdf/botela.php" target="_black" class="btn btn-success"><i class="fas fa-file-pdf"></i>Generar boleta</a>
+    <a href="./fpdf2/boleta.php" target="_black" class="btn btn-success"><i class="fas fa-file-pdf"></i>Generar boleta</a>
 </div>

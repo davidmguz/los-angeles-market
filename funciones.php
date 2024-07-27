@@ -145,27 +145,27 @@ function registrarProveedor($ruc, $nombre,$condicion,$estado, $telefono, $direcc
 }
 
 function obtenerNumeroVentas(){
-    $sentencia = "SELECT IFNULL(COUNT(*),0) AS total FROM ventas";
+    $sentencia = "SELECT IFNULL(COUNT(*),0) AS total FROM venta";
     return select($sentencia)[0]->total;
 }
 
 function obtenerNumeroUsuarios(){
-    $sentencia = "SELECT IFNULL(COUNT(*),0) AS total FROM usuarios";
+    $sentencia = "SELECT IFNULL(COUNT(*),0) AS total FROM colaboradores";
     return select($sentencia)[0]->total;
 }
 
 function obtenerNumeroClientes(){
-    $sentencia = "SELECT IFNULL(COUNT(*),0) AS total FROM clientes";
+    $sentencia = "SELECT IFNULL(COUNT(*),0) AS total FROM persona";
     return select($sentencia)[0]->total;
 }
 
 
 function obtenerVentasPorUsuario(){
-    $sentencia = "SELECT SUM(ventas.total) AS total, usuarios.usuario, COUNT(*) AS numeroVentas 
-    FROM ventas
-    INNER JOIN usuarios ON usuarios.id = ventas.idUsuario
-    GROUP BY ventas.idUsuario
-    ORDER BY total DESC";
+    $sentencia = "SELECT SUM(v.totalVenta) AS totalVenta, c.Usuario, COUNT(*) AS numeroVentas 
+    FROM venta v
+    INNER JOIN colaboradores c ON c.idColaborador = v.fk_idColaborador
+    GROUP BY v.fk_idColaborador
+    ORDER BY totalVenta DESC";
     return select($sentencia);
 }
 
@@ -180,9 +180,10 @@ function obtenerVentasPorCliente(){
 }
 
 function obtenerProductosMasVendidos(){
-    $sentencia = "SELECT SUM(productos_ventas.cantidad * productos_ventas.precio) AS total, SUM(productos_ventas.cantidad) AS unidades,
-    productos.nombre FROM productos_ventas INNER JOIN productos ON productos.id = productos_ventas.idProducto
-    GROUP BY productos_ventas.idProducto
+    $sentencia = "SELECT SUM(pv.cantidad * pv.preciototal) AS total, SUM(pv.cantidad) AS unidades,
+    p.nombreProd FROM productoventas pv
+    INNER JOIN producto p ON p.idProducto = pv.fk_idproducto
+    GROUP BY pv.fk_idproducto
     ORDER BY total DESC
     LIMIT 10";
     return select($sentencia);
@@ -190,9 +191,9 @@ function obtenerProductosMasVendidos(){
 
 function obtenerTotalVentas($idUsuario = null){
     $parametros = [];
-    $sentencia = "SELECT IFNULL(SUM(total),0) AS total FROM ventas";
+    $sentencia = "SELECT IFNULL(SUM(totalVenta),0) AS total FROM venta";
     if(isset($idUsuario)){
-        $sentencia .= " WHERE idUsuario = ?";
+        $sentencia .= " WHERE fk_idColaborador = ?";
         array_push($parametros, $idUsuario);
     }
     $fila = select($sentencia, $parametros);
@@ -201,9 +202,9 @@ function obtenerTotalVentas($idUsuario = null){
 
 function obtenerTotalVentasHoy($idUsuario = null){
     $parametros = [];
-    $sentencia = "SELECT IFNULL(SUM(total),0) AS total FROM ventas WHERE DATE(fecha) = CURDATE() ";
+    $sentencia = "SELECT IFNULL(SUM(totalVenta),0) AS total FROM venta WHERE DATE(fechaVenta) = CURDATE() ";
     if(isset($idUsuario)){
-        $sentencia .= " AND idUsuario = ?";
+        $sentencia .= " AND fk_idColaborador = ?";
         array_push($parametros, $idUsuario);
     }
     $fila = select($sentencia, $parametros);
@@ -212,9 +213,9 @@ function obtenerTotalVentasHoy($idUsuario = null){
 
 function obtenerTotalVentasSemana($idUsuario = null){
     $parametros = [];
-    $sentencia = "SELECT IFNULL(SUM(total),0) AS total FROM ventas  WHERE WEEK(fecha) = WEEK(NOW())";
+    $sentencia = "SELECT IFNULL(SUM(totalVenta),0) AS total FROM venta  WHERE WEEK(fechaVenta) = WEEK(NOW())";
     if(isset($idUsuario)){
-        $sentencia .= " AND  idUsuario = ?";
+        $sentencia .= " AND  fk_idColaborador = ?";
         array_push($parametros, $idUsuario);
     }
     $fila = select($sentencia, $parametros);
@@ -223,9 +224,9 @@ function obtenerTotalVentasSemana($idUsuario = null){
 
 function obtenerTotalVentasMes($idUsuario = null){
     $parametros = [];
-    $sentencia = "SELECT IFNULL(SUM(total),0) AS total FROM ventas  WHERE MONTH(fecha) = MONTH(CURRENT_DATE()) AND YEAR(fecha) = YEAR(CURRENT_DATE())";
+    $sentencia = "SELECT IFNULL(SUM(totalVenta),0) AS total FROM venta  WHERE MONTH(fechaVenta) = MONTH(CURRENT_DATE()) AND YEAR(fechaVenta) = YEAR(CURRENT_DATE())";
     if(isset($idUsuario)){
-        $sentencia .= " AND  idUsuario = ?";
+        $sentencia .= " AND  fk_idColaborador = ?";
         array_push($parametros, $idUsuario);
     }
     $fila = select($sentencia, $parametros);
@@ -413,19 +414,19 @@ function obtenerProductoPorCodigo($codigo){
 }
 
 function obtenerNumeroProductos(){
-    $sentencia = "SELECT IFNULL(SUM(existencia),0) AS total FROM productos";
+    $sentencia = "SELECT IFNULL(SUM(existencia),0) AS total FROM producto";
     $fila = select($sentencia);
     if($fila) return $fila[0]->total;
 }
 
 function obtenerTotalInventario(){
-    $sentencia = "SELECT IFNULL(SUM(existencia * venta),0) AS total FROM productos";
+    $sentencia = "SELECT IFNULL(SUM(existencia * venta),0) AS total FROM producto";
     $fila = select($sentencia);
     if($fila) return $fila[0]->total;
 }
 
 function calcularGananciaProductos(){
-    $sentencia = "SELECT IFNULL(SUM(existencia*venta) - SUM(existencia*compra),0) AS total FROM productos";
+    $sentencia = "SELECT IFNULL(SUM(existencia*venta) - SUM(existencia*compra),0) AS total FROM producto";
     $fila = select($sentencia);
     if($fila) return $fila[0]->total;
 }

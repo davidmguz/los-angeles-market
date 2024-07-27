@@ -65,9 +65,9 @@ $productosMasVendidos = obtenerProductosMasVendidos();
 						<tbody>
 							<?php foreach($ventasUsuarios as $usuario) {?>
 								<tr>
-									<td><?= $usuario->usuario?></td>
+									<td><?= $usuario->Usuario?></td>
 									<td><?= $usuario->numeroVentas?></td>
-									<td>$<?= $usuario->total?></td>
+									<td>$<?= $usuario->totalVenta?></td>
 								</tr>
 							<?php }?>
 						</tbody>
@@ -114,7 +114,7 @@ $productosMasVendidos = obtenerProductosMasVendidos();
 	 	<tbody>
 	 		<?php foreach($productosMasVendidos as $producto) {?>
 	 		<tr>
-	 			<td><?= $producto->nombre?></td>
+	 			<td><?= $producto->nombreProd?></td>
 	 			<td><?= $producto->unidades?></td>
 	 			<td>$<?= $producto->total?></td>
 	 		</tr>

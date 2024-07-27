@@ -6,7 +6,7 @@ session_start();
 
 if(empty($_SESSION['usuario'])) header("location: login.php");
 
-$clientes = obtenerClientes();
+$clientes = obtenerClientes2();
 ?>
 <div class="container">
     <h1>

@@ -327,16 +327,11 @@ function obtenerVentas($fechaInicio, $fechaFin, $cliente, $usuario) {
         $sentencia .= " WHERE " . implode(" AND ", $condiciones);
     }
 
-    // Depuración
-    var_dump($sentencia);
-    var_dump($parametros);
-
     $stmt = $pdo->prepare($sentencia);
     $stmt->execute($parametros);
     $ventas = $stmt->fetchAll(PDO::FETCH_OBJ);
     return agregarProductosVendidos($ventas);
 }
-
 
 
 

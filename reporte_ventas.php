@@ -72,18 +72,20 @@ $usuarios = obtenerUsuarios();
         </div>
         <div class="col">
             <form action="" method="post" class="row">
-                <div class="col-6">
-                    <select class="form-select" aria-label="Default select example" name="idCliente">
-                        <option selected value="">Selecciona un cliente</option>
-                        <?php foreach($clientes as $cliente) {?>
-                        <option value="<?= $cliente->idCliente?>"><?= obtenerNombreCliente($cliente)?></option>
-                        <?php }?>
-                    </select>
-                </div>
-                <div class="col-1">
-                    <input type="submit" name="buscarPorCliente" value="Buscar por cliente" class="btn btn-secondary">
-                </div>
-            </form>
+    <div class="col-6">
+        <select class="form-select" aria-label="Default select example" name="idCliente">
+            <option selected value="">Selecciona un cliente</option>
+            <?php foreach($clientes as $cliente) {?>
+            <option value="<?= $cliente->idCliente?>">
+                <?= $cliente->nombre ?></option>
+            <?php }?>
+        </select>
+    </div>
+    <div class="col-1">
+        <input type="submit" name="buscarPorCliente" value="Buscar por cliente" class="btn btn-secondary">
+    </div>
+</form>
+
         </div>
     </div>
     <?php include_once "cartas_totales.php"?>
@@ -100,28 +102,30 @@ $usuarios = obtenerUsuarios();
             </tr>
         </thead>
         <tbody>
-            <?php foreach($ventas as $venta) {?>
-                <tr>
-                    <td><?= $venta->idVenta;?></td>
-                    <td><?= $venta->fechaVenta;?></td>
-                    <td><?= $venta->cliente;?></td>
-                    <td>$<?= $venta->totalVenta;?></td>
-                    <td><?= $venta->usuario;?></td>
-                    <td>
-                        <table class="table">
-                            <?php foreach($venta->productos as $producto) {?>
-                                <tr>
-                                    <td><?= $producto->nombre;?></td>
-                                    <td><?= $producto->cantidad;?></td>
-                                    <td> X </td>
-                                    <td>$<?= $producto->preciototal ;?></td>
-                                    <th>$<?= $producto->cantidad * $producto->preciototal ;?></th>
-                                </tr>
-                            <?php }?>
-                        </table>
-                    </td>
-                </tr>
-            <?php }?>
+        <?php foreach($ventas as $venta) {?>
+    <tr>
+        <td><?= $venta->idVenta;?></td>
+        <td><?= $venta->fechaVenta;?></td>
+        <td><?= $venta->cliente;?></td>
+        <td>$<?= $venta->totalVenta;?></td>
+        <td><?= $venta->usuario;?></td>
+        
+        <td>
+            <table class="table">
+                <?php foreach($venta->producto as $producto) {?>
+                    <tr>
+                        <td><?= $producto->nombre;?></td>
+                        <td><?= $producto->cantidad;?></td>
+                        <td> X </td>
+                        <td>$<?= $producto->precioVenta;?></td>
+                        <th>$<?= $producto->cantidad * $producto->precioVenta;?></th>
+                    </tr>
+                <?php }?>
+            </table>
+        </td>
+    </tr>
+<?php }?>
+
         </tbody>
     </table>
     <?php }?>

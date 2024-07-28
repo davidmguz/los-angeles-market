@@ -110,13 +110,30 @@ function obtenerProveedorPorId($id_Proveedor){
     $cliente = select($sentencia, [$id_Proveedor]);
     if($cliente) return $cliente[0];
 }
+function obtenerClientes() {
+    $pdo = conectarBaseDatos();
 
-function obtenerClientes(){
-    $sentencia = "SELECT DNI_Persona AS id, Nombres AS nombre, PrimerApellido AS primerApellido,
-    SegundoApellido AS segundoApellido,'persona' AS tipo FROM persona UNION SELECT RUC AS id, 
-    NombreEmpresa AS nombre, NULL AS primerApellido,NULL AS segundoApellido, 'empresa' AS tipo FROM empresa";
-    return select($sentencia);
+    // Obtener clientes únicos por idCliente y nombre
+    $sentencia = "
+        SELECT cv.idCliente, p.Nombres AS nombre 
+        FROM clienteventa cv
+        INNER JOIN persona p ON p.DNI_Persona = cv.fk_dni
+        UNION
+        SELECT cv.idCliente, em.NombreEmpresa AS nombre 
+        FROM clienteventa cv
+        INNER JOIN empresa em ON em.RUC = cv.fk_ruc
+    ";
+
+    $stmt = $pdo->prepare($sentencia);
+    $stmt->execute();
+    $clientes = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+    return $clientes;
 }
+
+
+
+
 
 function obtenerClientes2(){
     $sentencia = "SELECT * from persona";
@@ -249,7 +266,7 @@ function obtenerTotalVentasMes($idUsuario = null){
 function calcularTotalVentas($ventas) {
     $total = 0;
     foreach ($ventas as $venta) {
-        $total += $venta->total;
+        $total += $venta->totalVenta;
     }
     return $total;
 }
@@ -257,7 +274,7 @@ function calcularTotalVentas($ventas) {
 function calcularProductosVendidos($ventas) {
     $total = 0;
     foreach ($ventas as $venta) {
-        foreach ($venta->productos as $producto) {
+        foreach ($venta->producto as $producto) {
             $total += $producto->cantidad;
         }
     }
@@ -267,50 +284,52 @@ function calcularProductosVendidos($ventas) {
 function obtenerGananciaVentas($ventas) {
     $ganancia = 0;
     foreach ($ventas as $venta) {
-        foreach ($venta->productos as $producto) {
-            $ganancia += ($producto->precio - $producto->compra) * $producto->cantidad;
+        foreach ($venta->producto as $producto) {
+            $ganancia += ($producto->precioVenta - $producto->precioCompra) * $producto->cantidad;
         }
     }
     return $ganancia;
 }
 
-function obtenerVentas($fechaInicio, $fechaFin, $cliente, $usuario){
+function obtenerVentas($fechaInicio, $fechaFin, $cliente, $usuario) {
     $pdo = conectarBaseDatos();
     $parametros = [];
-    $sentencia  = "SELECT v.*, c.Usuario AS usuario, 
-                   IFNULL(p.Nombres, em.NombreEmpresa) AS cliente
-                   FROM venta v
-                   INNER JOIN colaboradores c ON c.idColaborador = v.fk_idColaborador
-                   LEFT JOIN clienteventa cv ON cv.idCliente = v.fk_clienteVenta
-                   LEFT JOIN persona p ON p.DNI_Persona = cv.fk_dni
-                   LEFT JOIN empresa em ON em.RUC = cv.fk_ruc";
+    $sentencia = "SELECT v.*, c.Usuario AS usuario, 
+                  IFNULL(p.Nombres, em.NombreEmpresa) AS cliente
+                  FROM venta v
+                  INNER JOIN colaboradores c ON c.idColaborador = v.fk_idColaborador
+                  LEFT JOIN clienteventa cv ON cv.idCliente = v.fk_clienteVenta
+                  LEFT JOIN persona p ON p.DNI_Persona = cv.fk_dni
+                  LEFT JOIN empresa em ON em.RUC = cv.fk_ruc";
 
-    if(isset($usuario)){
-        $sentencia .= " WHERE v.fk_idColaborador = ?";
+    $condiciones = [];
+
+    if (!empty($usuario)) {
+        $condiciones[] = "v.fk_idColaborador = ?";
         $parametros[] = $usuario;
     }
 
-    if(isset($cliente)){
-        if (empty($parametros)) {
-            $sentencia .= " WHERE v.fk_clienteVenta = ?";
-        } else {
-            $sentencia .= " AND v.fk_clienteVenta = ?";
-        }
+    if (!empty($cliente)) {
+        $condiciones[] = "v.fk_clienteVenta = ?";
         $parametros[] = $cliente;
     }
 
-    if(isset($fechaInicio) && isset($fechaFin)){
-        if (empty($parametros)) {
-            $sentencia .= " WHERE DATE(v.fechaVenta) >= ? AND DATE(v.fechaVenta) <= ?";
-        } else {
-            $sentencia .= " AND DATE(v.fechaVenta) >= ? AND DATE(v.fechaVenta) <= ?";
-        }
+    if (!empty($fechaInicio) && !empty($fechaFin)) {
+        $condiciones[] = "DATE(v.fechaVenta) >= ? AND DATE(v.fechaVenta) <= ?";
         $parametros[] = $fechaInicio;
         $parametros[] = $fechaFin;
     } else {
-        $sentencia .= " WHERE DATE(v.fechaVenta) = ?";
+        $condiciones[] = "DATE(v.fechaVenta) = ?";
         $parametros[] = date('Y-m-d');
     }
+
+    if (!empty($condiciones)) {
+        $sentencia .= " WHERE " . implode(" AND ", $condiciones);
+    }
+
+    // Depuración
+    var_dump($sentencia);
+    var_dump($parametros);
 
     $stmt = $pdo->prepare($sentencia);
     $stmt->execute($parametros);
@@ -318,22 +337,26 @@ function obtenerVentas($fechaInicio, $fechaFin, $cliente, $usuario){
     return agregarProductosVendidos($ventas);
 }
 
+
+
+
 function agregarProductosVendidos($ventas){
     foreach($ventas as $venta){
-        $venta->productos = obtenerProductosVendidos($venta->idVenta);
+        $venta->producto = obtenerProductosVendidos($venta->idVenta);
     }
     return $ventas;
 }
 
 
-
-function obtenerProductosVendidos($idVenta){
-    $sentencia = "SELECT productos_ventas.cantidad, productos_ventas.precio, productos.nombre,
-    productos.compra
-    FROM productos_ventas
-    INNER JOIN productos ON productos.id = productos_ventas.idProducto
-    WHERE idVenta  = ? ";
-    return select($sentencia, [$idVenta]);
+function obtenerProductosVendidos($idVenta) {
+    $pdo = conectarBaseDatos();
+    $sentencia = "SELECT pv.cantidad, p.precioCompra, p.precioVenta, p.nombreProd AS nombre
+                  FROM productoventas pv
+                  INNER JOIN producto p ON p.idProducto = pv.fk_idproducto
+                  WHERE pv.fk_idventa = ?";
+    $stmt = $pdo->prepare($sentencia);
+    $stmt->execute([$idVenta]);
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 
 function registrarVenta($productos, $idUsuario, $idCliente, $total){

@@ -515,19 +515,23 @@ function obtenerCategoriaPorId($idCategoria){
 
 function obtenerProductos($busqueda = null){
     $parametros = [];
-    $sentencia = "SELECT * FROM producto ";
-    if(isset($busqueda)){
-        $sentencia .= " WHERE nombre LIKE ? OR codigo LIKE ?";
-        array_push($parametros, "%".$busqueda."%", "%".$busqueda."%"); 
+    $sentencia = "SELECT * FROM producto";
+
+    if ($busqueda !== null) {
+        $sentencia .= " WHERE nombreProd LIKE ? OR codigo LIKE ?";
+        $parametros[] = "%".$busqueda."%";
+        $parametros[] = "%".$busqueda."%"; 
     } 
+
     return select($sentencia, $parametros);
 }
+
 
 function obtenerCategorias($busqueda = null){
     $parametros = [];
     $sentencia = "SELECT * FROM categorias ";
     if(isset($busqueda)){
-        $sentencia .= " WHERE nombre LIKE ? OR codigo LIKE ?";
+        $sentencia .= " WHERE categoria LIKE ? OR idCategoria LIKE ?";
         array_push($parametros, "%".$busqueda."%", "%".$busqueda."%"); 
     } 
     return select($sentencia, $parametros);
@@ -574,28 +578,38 @@ function editar($sentencia, $parametros ){
 }
 
 function conectarBaseDatos() {
-    $host = "localhost";
-    $port = "3307"; // Cambiado a 3307
+    $host = "ventas-php.c5syycss4ofr.us-east-2.rds.amazonaws.com";
+    $port = "3306";
     $db   = "ventas_php";
     $user = "root";
-    $pass = "";
+    $pass = "ventas1234";
     $charset = 'utf8mb4';
 
     $options = [
-        \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
-        \PDO::ATTR_EMULATE_PREPARES   => false,
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+        PDO::ATTR_EMULATE_PREPARES   => false,
+        PDO::ATTR_TIMEOUT            => 10, // Opcional: Ajusta el tiempo de espera de la conexión en segundos
     ];
 
-    $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset"; // Añadido port
+    $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
     try {
-         $pdo = new \PDO($dsn, $user, $pass, $options);
-         return $pdo;
-    } catch (\PDOException $e) {
-         throw new \PDOException($e->getMessage(), (int)$e->getCode());
+        $pdo = new PDO($dsn, $user, $pass, $options);
+        return $pdo;
+    } catch (PDOException $e) {
+        // Log the exception message to a file or monitoring system for debugging
+        error_log($e->getMessage());
+        throw new PDOException($e->getMessage(), (int)$e->getCode());
     }
 }
-
+function testConexion() {
+    try {
+        $pdo = conectarBaseDatos();
+        echo "Conexión exitosa.";
+    } catch (PDOException $e) {
+        echo "Error en la conexión: " . $e->getMessage();
+    }
+}
 
 function obtenerCategorias2() {
     $pdo = conectarBaseDatos();

@@ -1,6 +1,8 @@
 <?php
 include_once "sesion.php";
 include_once "funciones.php";
+include_once "encabezado.php";
+include_once "navbar.php";
 
 if (empty($_SESSION['usuario'])) {
     header("location: login.php");
@@ -21,7 +23,7 @@ try {
         // Limpia la lista de productos y cliente de la sesión después de registrar la venta
         unset($_SESSION['lista']);
         unset($_SESSION['clienteVentaId']);
-        header("location: index.php");
+        header("location: ./fpdf2/boleta.php");
     } else {
         echo "Error al registrar la venta. Inténtelo de nuevo.";
     }

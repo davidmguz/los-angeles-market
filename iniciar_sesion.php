@@ -19,7 +19,6 @@ if(isset($_POST['ingresar'])){
     session_start();
 
     $datosSesion = iniciarSesion($usuario, $password);
-    #$datosSesion = iniciarSesion2($usuario, $password);
 
     if(!$datosSesion){
         echo'
@@ -30,8 +29,11 @@ if(isset($_POST['ingresar'])){
         return;
     }
 
+    $rol = obtenerRol($datosSesion->idColaborador);
     $_SESSION['usuario'] = $datosSesion->Usuario;
     $_SESSION['idUsuario'] = $datosSesion->idColaborador;
+    $_SESSION['rol'] = $rol;
+
     header("location: index.php");
 }
 ?>

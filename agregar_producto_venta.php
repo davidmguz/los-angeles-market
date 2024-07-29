@@ -1,6 +1,6 @@
 <?php   
     include_once "funciones.php";
-    session_start();
+    include_once "sesion.php";
     if(isset($_POST['agregar'])){
     
         if(isset($_POST['codigo'])) {

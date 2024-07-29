@@ -20,6 +20,17 @@ function verificarPassword($idUsuario, $password){
     if($verifica) return true;
 }
 
+function obtenerRol($idUsuario){
+    $pdo = conectarBaseDatos();
+    $sentencia = "SELECT r.Descripcion 
+                  FROM colaboradores c 
+                  INNER JOIN roles r ON c.fk_idRoles = r.idRoles 
+                  WHERE c.idColaborador = ?";
+    $stmt = $pdo->prepare($sentencia);
+    $stmt->execute([$idUsuario]);
+    $rol = $stmt->fetch(PDO::FETCH_OBJ);
+    return $rol ? $rol->Descripcion : null;
+}
 
 function cambiarPassword($idUsuario, $password){
     $nueva = password_hash($password, PASSWORD_DEFAULT);

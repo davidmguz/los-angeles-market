@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once "sesion.php";
 $_SESSION['clienteVenta'] = "";
 header("location: vender.php");
 ?>

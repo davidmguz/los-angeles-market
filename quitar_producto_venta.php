@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once "sesion.php";
 $id = $_GET['idProducto'];
 $listaProductos = $_SESSION['lista'];
 

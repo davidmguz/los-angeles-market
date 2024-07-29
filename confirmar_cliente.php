@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once "sesion.php";
 include_once "funciones.php";
 
 if(isset($_SESSION['clienteVenta'])){

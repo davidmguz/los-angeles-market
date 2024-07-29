@@ -70,18 +70,7 @@ $rol = isset($_SESSION['rol']) ? $_SESSION['rol'] : null;
             Vender
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="reporteBoleta.php">
-            <i class="fa fa-file-alt"></i>
-            Boletas
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="reporteFactura.php">
-            <i class="fa fa-file-alt"></i>
-            Facturas
-            </a>
-        </li>
+
       </ul>
       <ul class="navbar-nav">
           <li class="nav-item">

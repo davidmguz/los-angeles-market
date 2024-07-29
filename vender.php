@@ -36,9 +36,9 @@ $mensajeClienteNoEncontrado = isset($_SESSION['mensajeClienteNoEncontrado']) ? $
                     <tr>
                         <td><?php echo $lista->codigo;?></td>
                         <td><?php echo $lista->nombreProd;?></td>
-                        <td>$<?php echo $lista->precioVenta;?></td>
+                        <td>S/. <?php echo $lista->precioVenta;?></td>
                         <td><?php echo $lista->cantidad;?></td>
-                        <td>$<?php echo floatval($lista->cantidad * $lista->precioVenta);?></td>
+                        <td>S/. <?php echo floatval($lista->cantidad * $lista->precioVenta);?></td>
                         <td>
                             <a href="quitar_producto_venta.php?idProducto=<?php echo $lista->idProducto?>" class="btn btn-danger">
                                 <i class="fa fa-times"></i>
@@ -76,7 +76,7 @@ $mensajeClienteNoEncontrado = isset($_SESSION['mensajeClienteNoEncontrado']) ? $
         <?php }?>
 
         <div class="text-center mt-3">
-            <h1>Total: $<?php echo $total;?></h1>
+            <h1>Total: S/. <?php echo $total;?></h1>
             <a class="btn btn-primary btn-lg" href="registrar_venta.php">  
                 <i class="fa fa-check"></i> 
                 Terminar venta 

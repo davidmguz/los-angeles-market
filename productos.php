@@ -55,9 +55,9 @@ $cartas = [
                 <tr>
                     <td><?= $producto->codigo; ?></td>
                     <td><?= $producto->nombreProd; ?></td>
-                    <td><?= '$'.$producto->precioCompra; ?></td>
-                    <td><?= '$'.$producto->precioVenta; ?></td>
-                    <td><?= '$'. floatval($producto->precioVenta - $producto->precioCompra); ?></td>
+                    <td><?= 'S/. '.$producto->precioCompra; ?></td>
+                    <td><?= 'S/. '.$producto->precioVenta; ?></td>
+                    <td><?= 'S/. '. floatval($producto->precioVenta - $producto->precioCompra); ?></td>
                     <td><?= $producto->existencia; ?></td>
                    <td><?= $producto->fechavencimiento; ?></td> 
                    <td><?= $producto->descricpionProd; ?></td>

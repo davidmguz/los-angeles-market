@@ -70,7 +70,7 @@ $productosMasVendidos = obtenerProductosMasVendidos();
                                 <tr>
                                     <td><?= htmlspecialchars($usuario->Usuario) ?></td>
                                     <td><?= htmlspecialchars($usuario->numeroVentas) ?></td>
-                                    <td>$<?= htmlspecialchars($usuario->totalVenta) ?></td>
+                                    <td>S/. <?= htmlspecialchars($usuario->totalVenta) ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -95,7 +95,7 @@ $productosMasVendidos = obtenerProductosMasVendidos();
                                 <tr>
                                     <td><?= htmlspecialchars($cliente->cliente) ?></td>
                                     <td><?= htmlspecialchars($cliente->numeroCompras) ?></td>
-                                    <td>$<?= htmlspecialchars($cliente->total) ?></td>
+                                    <td>S/. <?= htmlspecialchars($cliente->total) ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -119,7 +119,7 @@ $productosMasVendidos = obtenerProductosMasVendidos();
                 <tr>
                     <td><?= htmlspecialchars($producto->nombreProd) ?></td>
                     <td><?= htmlspecialchars($producto->unidades) ?></td>
-                    <td>$<?= htmlspecialchars($producto->total) ?></td>
+                    <td>S/. <?= htmlspecialchars($producto->total) ?></td>
                 </tr>
             <?php } ?>
         </tbody>

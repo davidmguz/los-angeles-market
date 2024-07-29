@@ -4,10 +4,10 @@
 	require "./code128.php";
 //--------------------------------------------	
 	// Datos de conexión a la base de datos
-	$servername = "localhost";
+	$servername = "ventas-php.c5syycss4ofr.us-east-2.rds.amazonaws.com";
 	$username = "root";
-	$port = 3307;
-	$password = "";
+	$port = 3306;
+	$password = "ventas1234";
 	$dbname = "ventas_php";
 
 	// Crear conexión

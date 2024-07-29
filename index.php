@@ -12,10 +12,10 @@ if(empty($_SESSION['usuario'])) {
 
 // Asegúrate de que todas las funciones están definidas y manejan errores adecuadamente
 $cartas = [
-    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "$" . obtenerTotalVentas(), "color" => "#A71D45"],
-    ["titulo" => "Ventas hoy", "icono" => "fa fa-calendar-day", "total" => "$" . obtenerTotalVentasHoy(), "color" => "#2A8D22"],
-    ["titulo" => "Ventas semana", "icono" => "fa fa-calendar-week", "total" => "$" . obtenerTotalVentasSemana(), "color" => "#223D8D"],
-    ["titulo" => "Ventas mes", "icono" => "fa fa-calendar-alt", "total" => "$" . obtenerTotalVentasMes(), "color" => "#D55929"],
+    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "S/. " . obtenerTotalVentas(), "color" => "#A71D45"],
+    ["titulo" => "Ventas hoy", "icono" => "fa fa-calendar-day", "total" => "S/. " . obtenerTotalVentasHoy(), "color" => "#2A8D22"],
+    ["titulo" => "Ventas semana", "icono" => "fa fa-calendar-week", "total" => "S/. " . obtenerTotalVentasSemana(), "color" => "#223D8D"],
+    ["titulo" => "Ventas mes", "icono" => "fa fa-calendar-alt", "total" => "S/. " . obtenerTotalVentasMes(), "color" => "#D55929"],
 ];
 
 $totales = [

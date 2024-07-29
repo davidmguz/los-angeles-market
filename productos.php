@@ -10,10 +10,10 @@ $nombreProducto = (isset($_POST['nombreProducto'])) ? $_POST['nombreProducto'] :
 $productos = obtenerProductos($nombreProducto);
 
 $cartas = [
-    ["titulo" => "No. Productos", "icono" => "fa fa-box", "total" => count($productos), "color" => "#3578FE"],
-    ["titulo" => "Total productos", "icono" => "fa fa-shopping-cart", "total" => obtenerNumeroProductos(), "color" => "#4F7DAF"],
-    ["titulo" => "Total inventario", "icono" => "fa fa-money-bill", "total" => "$". obtenerTotalInventario(), "color" => "#1FB824"],
-    ["titulo" => "Ganancia", "icono" => "fa fa-wallet", "total" => "$". calcularGananciaProductos(), "color" => "#D55929"],
+    ["titulo" => "No. Productos - General", "icono" => "fa fa-box", "total" => count($productos), "color" => "#3578FE"],
+    ["titulo" => "Suma total de productos", "icono" => "fa fa-shopping-cart", "total" => obtenerNumeroProductos(), "color" => "#4F7DAF"],
+    ["titulo" => "Total inventario", "icono" => "fa fa-money-bill", "total" => "S/.". obtenerTotalInventario(), "color" => "#1FB824"],
+    ["titulo" => "Ganancia", "icono" => "fa fa-wallet", "total" => "S/.". calcularGananciaProductos(), "color" => "#D55929"],
 ];
 ?>
 <div class="container mt-3">

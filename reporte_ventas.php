@@ -26,9 +26,9 @@ $ventas = obtenerVentas($fechaInicio, $fechaFin, $cliente, $usuario);
 
 $cartas = [
     ["titulo" => "No. ventas", "icono" => "fa fa-shopping-cart", "total" => count($ventas), "color" => "#A71D45"],
-    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "$".calcularTotalVentas($ventas), "color" => "#2A8D22"],
+    ["titulo" => "Total ventas", "icono" => "fa fa-money-bill", "total" => "S/.".calcularTotalVentas($ventas), "color" => "#2A8D22"],
     ["titulo" => "Productos vendidos", "icono" => "fa fa-box", "total" =>calcularProductosVendidos($ventas), "color" => "#223D8D"],
-    ["titulo" => "Ganancia", "icono" => "fa fa-wallet", "total" => "$". obtenerGananciaVentas($ventas), "color" => "#D55929"],
+    ["titulo" => "Ganancia", "icono" => "fa fa-wallet", "total" => "S/.". obtenerGananciaVentas($ventas), "color" => "#D55929"],
 ];
 
 $clientes = obtenerClientes();

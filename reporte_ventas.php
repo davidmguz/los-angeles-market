@@ -105,7 +105,7 @@ $usuarios = obtenerUsuarios();
         <tbody>
         <?php foreach($ventas as $venta) {?>
     <tr>
-        <td><?= $_SESSION['idVenta'] = $venta->idVenta;?></td>
+        <td><?= $venta->idVenta;?></td>
         <td><?= $venta->fechaVenta;?></td>
         <td><?= $venta->cliente;?></td>
         <td>S/. <?= $venta->totalVenta;?></td>
@@ -126,10 +126,12 @@ $usuarios = obtenerUsuarios();
                 <?php }?>
             </table>
         </td>
-
-        <td> <div class="text-right mb-2">
-    <a href="./fpdf2/boleta.php" target="_black" class="btn btn-success"><i class="fas fa-file-pdf"></i></a>
-</div></td>
+        <td>
+            <div class="text-right mb-2">
+                
+                <a href="./fpdf2/boleta.php?idVenta=<?= $venta->idVenta; ?>" target="_blank" class="btn btn-success"><i class="fas fa-file-pdf"></i></a>
+            </div>
+        </td>
     </tr>
 <?php }?>
 

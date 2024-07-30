@@ -14,7 +14,7 @@ define('MONEDA_LETRA', 'Soles');
 define('MONEDA_DECIMAL', 'Centavos');
 
 #$idVenta = isset($_GET['id']) ? $mysql->real_escape_string($_GET['id']) : 57;
-$idVenta = $_SESSION['idVenta'];
+$idVenta = isset($_GET['idVenta']) ? $_GET['idVenta'] : null;
 #$sqlIdVentaMax="SELECT MAX(idVenta) AS maximo FROM venta";
 #$resul = $mysql->query($sqlIdVentaMax);
 #$row_id = $resul ->fetch_assoc();

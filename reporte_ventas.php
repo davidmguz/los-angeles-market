@@ -120,7 +120,9 @@ $usuarios = obtenerUsuarios();
                         <td> X </td>
                         <td>S/. <?= $producto->precioVenta;?></td>
                         <th>S/. <?= $producto->cantidad * $producto->precioVenta;?></th>
-                        <th>qw <?= "factura aqui"?></th>
+                        <th> <div class="text-right mb-2">
+    <a href="./fpdf2/boleta.php" target="_black" class="btn btn-success"><i class="fas fa-file-pdf"></i></a>
+</div></th>
                     </tr>
                 <?php }?>
             </table>

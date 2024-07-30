@@ -99,17 +99,18 @@ $usuarios = obtenerUsuarios();
                 <th>Total</th>
                 <th>Usuario</th>
                 <th>Productos</th>
-                <th>Factura</th>
+                <th>Boleta</th>
             </tr>
         </thead>
         <tbody>
         <?php foreach($ventas as $venta) {?>
     <tr>
-        <td><?= $venta->idVenta;?></td>
+        <td><?= $_SESSION['idVenta'] = $venta->idVenta;?></td>
         <td><?= $venta->fechaVenta;?></td>
         <td><?= $venta->cliente;?></td>
         <td>S/. <?= $venta->totalVenta;?></td>
         <td><?= $venta->usuario;?></td>
+        
         
         <td>
             <table class="table">
@@ -120,13 +121,15 @@ $usuarios = obtenerUsuarios();
                         <td> X </td>
                         <td>S/. <?= $producto->precioVenta;?></td>
                         <th>S/. <?= $producto->cantidad * $producto->precioVenta;?></th>
-                        <th> <div class="text-right mb-2">
-    <a href="./fpdf2/boleta.php" target="_black" class="btn btn-success"><i class="fas fa-file-pdf"></i></a>
-</div></th>
+                        
                     </tr>
                 <?php }?>
             </table>
         </td>
+
+        <td> <div class="text-right mb-2">
+    <a href="./fpdf2/boleta.php" target="_black" class="btn btn-success"><i class="fas fa-file-pdf"></i></a>
+</div></td>
     </tr>
 <?php }?>
 

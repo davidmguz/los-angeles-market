@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -12,11 +13,12 @@ define('MONEDA', 'S/.');
 define('MONEDA_LETRA', 'Soles');
 define('MONEDA_DECIMAL', 'Centavos');
 
-$idVenta = isset($_GET['id']) ? $mysql->real_escape_string($_GET['id']) : 57;
-$sqlIdVentaMax="SELECT MAX(idVenta) AS maximo FROM venta";
-$resul = $mysql->query($sqlIdVentaMax);
-$row_id = $resul ->fetch_assoc();
-$idVenta=$row_id['maximo'];
+#$idVenta = isset($_GET['id']) ? $mysql->real_escape_string($_GET['id']) : 57;
+$idVenta = $_SESSION['idVenta'];
+#$sqlIdVentaMax="SELECT MAX(idVenta) AS maximo FROM venta";
+#$resul = $mysql->query($sqlIdVentaMax);
+#$row_id = $resul ->fetch_assoc();
+#$idVenta=$row_id['maximo'];
 
 $sqlVenta="SELECT idVenta, DATE_FORMAT(fechaVenta, '%d/%m/%y') as fecha_venta, DATE_FORMAT(fechaVenta, '%H:%i') as hora, totalVenta FROM venta WHERE idVenta=$idVenta LIMIT 1";
 $resultado = $mysql->query($sqlVenta);

@@ -655,7 +655,6 @@ function obtenerClientePorRUC($ruc){
     return count($resultados) > 0 ? $resultados[0] : null;
 }
 
-
 function registrarVenta2($productos, $total, $clienteId){
     $idColaborador = $_SESSION['idUsuario'];
     $fechaVenta = date("Y-m-d H:i:s");
@@ -680,10 +679,11 @@ function registrarVenta2($productos, $total, $clienteId){
             // Descontar la cantidad de productos vendidos del inventario
             descontarProductos($producto->idProducto, $producto->cantidad);
         }
-        return true;
+        return $idVenta; // Aquí retornamos el idVenta
     }
     return false;
 }
+
 function clienteExiste($idCliente) {
     $bd = conectarBaseDatos();
     $sentencia = "SELECT COUNT(*) FROM clienteventa WHERE idCliente = ?";

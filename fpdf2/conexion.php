@@ -6,8 +6,13 @@ $port = 3306;
 $password = "ventas1234";
 $dbname = "ventas_php";
 
-$mysql=new mysqli($servername, $username, $password, $dbname, $port);
-if($mysql->connect_error) {
+// Crear conexión
+$mysql = new mysqli($servername, $username, $password, $dbname, $port);
+
+// Verificar la conexión
+if ($mysql->connect_error) {
     echo 'Error de conexion: ' . $mysql->connect_error;
     exit;
 }
+
+// Resto del código

@@ -13,29 +13,27 @@ define('MONEDA', 'S/.');
 define('MONEDA_LETRA', 'Soles');
 define('MONEDA_DECIMAL', 'Centavos');
 
-#$idVenta = isset($_GET['id']) ? $mysql->real_escape_string($_GET['id']) : 57;
 $idVenta = isset($_GET['idVenta']) ? $_GET['idVenta'] : null;
-#$sqlIdVentaMax="SELECT MAX(idVenta) AS maximo FROM venta";
-#$resul = $mysql->query($sqlIdVentaMax);
-#$row_id = $resul ->fetch_assoc();
-#$idVenta=$row_id['maximo'];
 
-$sqlVenta="SELECT idVenta, DATE_FORMAT(fechaVenta, '%d/%m/%y') as fecha_venta, DATE_FORMAT(fechaVenta, '%H:%i') as hora, totalVenta FROM venta WHERE idVenta=$idVenta LIMIT 1";
+if (!$idVenta) {
+    echo "Error: idVenta no está definido. Por favor, asegúrate de que la URL incluye idVenta. Ejemplo: boleta.php?idVenta=1";
+    exit();
+}
+
+$sqlVenta = "SELECT idVenta, DATE_FORMAT(fechaVenta, '%d/%m/%y') as fecha_venta, DATE_FORMAT(fechaVenta, '%H:%i') as hora, totalVenta FROM venta WHERE idVenta=$idVenta LIMIT 1";
 $resultado = $mysql->query($sqlVenta);
+if (!$resultado || $resultado->num_rows == 0) {
+    echo "Error: Venta no encontrada.";
+    exit();
+}
 $row_venta = $resultado->fetch_assoc();
 
-$total=number_format($row_venta['totalVenta'], 2, '.', ',');
+$total = number_format($row_venta['totalVenta'], 2, '.', ',');
 
-$sqlDetalle="SELECT venta.idVenta, DATE_FORMAT(venta.fechaVenta, '%d/%m/%y') as fecha_venta,
-DATE_FORMAT(venta.fechaVenta, '%H:%i') as hora,   
-venta.totalVenta, productoventas.cantidad, productoventas.preciototal, 
-producto.nombreProd, producto.descricpionProd, producto.precioVenta from venta 
-INNER JOIN productoventas on venta.idVenta=productoventas.fk_idventa
-INNER JOIN producto on producto.idProducto=productoventas.fk_idproducto
-WHERE venta.idVenta=$idVenta";
+$sqlDetalle = "SELECT venta.idVenta, DATE_FORMAT(venta.fechaVenta, '%d/%m/%y') as fecha_venta, DATE_FORMAT(venta.fechaVenta, '%H:%i') as hora, venta.totalVenta, productoventas.cantidad, productoventas.preciototal, producto.nombreProd, producto.descricpionProd, producto.precioVenta FROM venta INNER JOIN productoventas ON venta.idVenta=productoventas.fk_idventa INNER JOIN producto ON producto.idProducto=productoventas.fk_idproducto WHERE venta.idVenta=$idVenta";
 $resultadoDetalle = $mysql->query($sqlDetalle);
 
-$pdf=new FPDF('P', 'mm', array(80, 200));
+$pdf = new FPDF('P', 'mm', array(80, 200));
 $pdf->AddPage();
 $pdf->SetMargins(5, 5, 5);
 $pdf->SetFont('Arial', 'B', 9);
@@ -60,26 +58,25 @@ $pdf->Cell(15, 4, 'Importe ', 0, 1, 'L');
 
 $pdf->Cell(70, 2, '-------------------------------------------------------------------------', 0, 1, 'L');
 
-$totalProductos=0;
+$totalProductos = 0;
 $pdf->SetFont('Arial', '', 7);
 
-while($row_producto=$resultadoDetalle->fetch_assoc()){
-    $importe=$row_producto['preciototal'];
+while ($row_producto = $resultadoDetalle->fetch_assoc()) {
+    $importe = $row_producto['preciototal'];
     $totalProductos += $row_producto['cantidad'];
 
     $pdf->Cell(10, 4, $row_producto['cantidad'], 0, 0, 'L');
     
-    $yInicio=$pdf->GetY();
+    $yInicio = $pdf->GetY();
     $pdf->MultiCell(30, 4, mb_convert_encoding($row_producto['nombreProd'] . $row_producto['descricpionProd'], 'ISO-8859-1', 'UTF-8'), 0, 'L');
-    $yFin=$pdf->GetY();
+    $yFin = $pdf->GetY();
 
     $pdf->SetXY(45, $yInicio);
 
-    $pdf->Cell(15, 4, MONEDA. ' ' . $row_producto['precioVenta'], 0, 0, 'L');
-    $pdf->Cell(15, 4, MONEDA. '' . $row_producto['preciototal'], 0, 1, 'L');
+    $pdf->Cell(15, 4, MONEDA . ' ' . $row_producto['precioVenta'], 0, 0, 'L');
+    $pdf->Cell(15, 4, MONEDA . ' ' . $row_producto['preciototal'], 0, 1, 'L');
 
     $pdf->SetY($yFin);
-
 }
 
 $pdf->Ln();
@@ -105,3 +102,4 @@ $pdf->Ln(10);
 $pdf->MultiCell(70, 5, 'AGRADECEMOS SU PREFERENCIA, VUELVA PRONTO!!!', 0, 'C');
 
 $pdf->Output();
+?>

@@ -96,7 +96,7 @@ $usuarios = obtenerUsuarios();
                 <th>#</th>
                 <th>Fecha</th>
                 <th>Cliente</th>
-                <th>Total</th>
+               
                 <th>Usuario</th>
                 <th>Productos</th>
                 <th>Boleta</th>
@@ -108,7 +108,7 @@ $usuarios = obtenerUsuarios();
         <td><?= $venta->idVenta;?></td>
         <td><?= $venta->fechaVenta;?></td>
         <td><?= $venta->cliente;?></td>
-        <td>S/. <?= $venta->totalVenta;?></td>
+     
         <td><?= $venta->usuario;?></td>
         
         
@@ -121,7 +121,7 @@ $usuarios = obtenerUsuarios();
                         <td> X </td>
                         <td>S/. <?= $producto->precioVenta;?></td>
                         <th>S/. <?= $producto->cantidad * $producto->precioVenta;?></th>
-                        
+                        <th>qw <?= "factura aqui"?></th>
                     </tr>
                 <?php }?>
             </table>

@@ -578,11 +578,11 @@ function editar($sentencia, $parametros ){
 }
 
 function conectarBaseDatos() {
-    $host = "ventas-php.c5syycss4ofr.us-east-2.rds.amazonaws.com";
+    $host = "localhost";
     $port = "3306";
     $db   = "ventas_php";
     $user = "root";
-    $pass = "ventas1234";
+    $pass = "";
     $charset = 'utf8mb4';
 
     $options = [

@@ -121,7 +121,7 @@ $usuarios = obtenerUsuarios();
                         <td> X </td>
                         <td>S/. <?= $producto->precioVenta;?></td>
                         <th>S/. <?= $producto->cantidad * $producto->precioVenta;?></th>
-                        <th>qw <?= "factura aqui"?></th>
+                       
                     </tr>
                 <?php }?>
             </table>
